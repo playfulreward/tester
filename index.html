@@ -479,53 +479,78 @@ font-size: 18px;
 </div>
 
 <script>
-// Function to get URL parameter
+// Get URL param safely
 function getUrlParameter(name) {
-name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
-var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
-var results = regex.exec(location.search);
-return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+  const params = new URLSearchParams(window.location.search);
+  return params.get(name) || '';
 }
 
-// Set up the download button with proper tracking
+// Build passthrough string from current page: s1,s2,s3 (only if present)
+function getS123Passthrough() {
+  const params = new URLSearchParams(window.location.search);
+  const out = new URLSearchParams();
+
+  ['s1','s2','s3'].forEach(k => {
+    const v = params.get(k);
+    if (v) out.set(k, v);
+  });
+
+  const str = out.toString();
+  return str ? str : '';
+}
+
+// Append params to a URL safely (handles ? vs &)
+function appendQuery(url, queryString) {
+  if (!queryString) return url;
+  const joiner = url.includes('?') ? '&' : '?';
+  return url + joiner + queryString;
+}
+
 function setupDownloadButton() {
-const sub2Param = getUrlParameter('sub2');
+  const sub2Param = getUrlParameter('sub2');      // your existing one
+  const s123 = getS123Passthrough();              // new: s1/s2/s3 passthrough
 
-let finalUrl;
+  const baseUrl = 'https://www.phef6trk.com/QZ85XF/2JSKXKP/';
 
-// Check if sub2 starts with "uk" (case-insensitive)
-if (sub2Param && sub2Param.toLowerCase().startsWith('uk')) {
-// Use UK offer link
-finalUrl = 'https://www.phef6trk.com/QZ85XF/2JSKXKP/';
-if (sub2Param) {
-finalUrl += '&sub2=' + encodeURIComponent(sub2Param);
-}
-} else if (sub2Param && sub2Param.toLowerCase().startsWith('ca')) {
-// Use UK offer link
-finalUrl = 'https://www.phef6trk.com/QZ85XF/2JSKXKP/';
-if (sub2Param) {
-finalUrl += '&aff_sub3=' + encodeURIComponent(sub2Param);
-}
-} else if (sub2Param && sub2Param.toLowerCase().startsWith('feng12')) {
-// Use UK offer link
-finalUrl = 'https://www.phef6trk.com/QZ85XF/2JSKXKP/';
-if (sub2Param) {
-finalUrl += '&aff_sub3=' + encodeURIComponent(sub2Param);
-}
-} else {
-// Use default offer link
-finalUrl = 'https://www.phef6trk.com/QZ85XF/2JSKXKP/';
-if (sub2Param) {
-finalUrl += '&sub2=' + encodeURIComponent(sub2Param);
-}
+  // Decide which tracking key to use for sub2
+  let trackingKey = 'sub2';
+
+  if (sub2Param && sub2Param.toLowerCase().startsWith('ca')) {
+    trackingKey = 'aff_sub3';
+  } else if (sub2Param && sub2Param.toLowerCase().startsWith('feng12')) {
+    trackingKey = 'aff_sub3';
+  } else if (sub2Param && sub2Param.toLowerCase().startsWith('uk')) {
+    trackingKey = 'sub2';
+  }
+
+  // Build final query params
+  const finalParams = new URLSearchParams();
+
+  // add your sub2 mapping
+  if (sub2Param) finalParams.set(trackingKey, sub2Param);
+
+  // add s1/s2/s3 passthrough
+  if (s123) {
+    const passthroughParams = new URLSearchParams(s123);
+    passthroughParams.forEach((value, key) => finalParams.set(key, value));
+  }
+
+  // final URL (works for ALL branches)
+  const finalUrl = appendQuery(baseUrl, finalParams.toString());
+
+  const downloadBtn = document.getElementById('downloadBtn');
+  if (!downloadBtn) return;
+
+  downloadBtn.addEventListener('click', function() {
+    console.log('Download button clicked!', { sub2: sub2Param, url: finalUrl });
+    window.open(finalUrl, '_blank');
+  });
 }
 
-const downloadBtn = document.getElementById('downloadBtn');
-downloadBtn.addEventListener('click', function() {
-console.log('Download button clicked!', 'sub2:', sub2Param, 'URL:', finalUrl);
-window.open(finalUrl, '_blank');
-});
-}
+// call it after DOM is ready
+document.addEventListener('DOMContentLoaded', setupDownloadButton);
+</script>
+
 
 // Add some interactive elements
 document.querySelectorAll('.feature-item').forEach(item => {
@@ -561,4 +586,5 @@ setupDownloadButton();
 </script>
 </body>
 </html>
+
 
