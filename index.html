@@ -1,156 +1,277 @@
 
 
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Get Paid To Game</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>TikTok Rewards</title>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',Roboto,Helvetica,Arial,sans-serif;background:hsl(160,20%,5%);color:#fff;min-height:100vh;display:flex;align-items:center;justify-content:center;overflow-x:hidden}
-.bg-glow{position:fixed;inset:0;background:radial-gradient(ellipse at center,hsla(160,100%,30%,0.12) 0%,transparent 60%),radial-gradient(ellipse at center,hsla(160,100%,20%,0.08) 0%,transparent 80%),hsl(160,20%,5%);z-index:0}
-.container{position:relative;z-index:1;width:100%;max-width:540px;padding:64px 24px;display:flex;flex-direction:column;align-items:center;text-align:center}
-.logo-row{display:flex;align-items:center;gap:12px;margin-bottom:24px}
-.logo-row img{width:56px;height:56px;border-radius:12px;box-shadow:0 0 20px hsla(160,100%,50%,0.15)}
-.logo-row span{color:hsla(0,0%,100%,0.5);font-size:20px;font-weight:500}
-.headline{font-size:clamp(2rem,6vw,3rem);font-weight:800;line-height:1.15;letter-spacing:-0.02em;background:linear-gradient(180deg,#fff 0%,hsl(160,30%,60%) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;text-shadow:none;margin-bottom:16px;filter:drop-shadow(0 0 40px hsla(160,100%,50%,0.15))}
-.subtext{color:hsla(0,0%,100%,0.5);font-size:15px;line-height:1.6;max-width:400px;margin-bottom:24px}
-.btn-neon{display:flex;flex-direction:column;align-items:center;gap:4px;width:100%;max-width:420px;padding:20px 40px;border:none;border-radius:16px;cursor:pointer;background:linear-gradient(180deg,hsl(160,100%,55%) 0%,hsl(160,100%,45%) 100%);box-shadow:0 0 30px hsla(160,100%,50%,0.5),0 0 60px hsla(160,100%,50%,0.25),0 4px 15px hsla(0,0%,0%,0.3);transition:all 0.2s ease;margin-bottom:12px}
-.btn-neon:hover{transform:translateY(-2px);box-shadow:0 0 40px hsla(160,100%,50%,0.6),0 0 80px hsla(160,100%,50%,0.3),0 8px 25px hsla(0,0%,0%,0.4)}
-.btn-neon:active{transform:translateY(1px) scale(0.98);box-shadow:0 0 20px hsla(160,100%,50%,0.4),0 0 40px hsla(160,100%,50%,0.2)}
-.btn-neon .main{font-size:20px;font-weight:700;color:hsl(160,20%,5%)}
-.btn-neon .sub{font-size:12px;color:hsla(160,20%,5%,0.7)}
-.btn-dark{display:flex;flex-direction:column;align-items:center;gap:4px;width:100%;max-width:420px;padding:20px 40px;border:1px solid hsla(160,15%,30%,0.5);border-radius:16px;cursor:pointer;background:hsla(160,10%,15%,0.3);transition:all 0.2s ease}
-.btn-dark:hover{background:hsla(160,10%,15%,0.5)}
-.btn-dark .main{font-size:20px;font-weight:700;color:#fff}
-.btn-dark .sub{font-size:12px;color:hsla(0,0%,100%,0.5)}
-.btn-activate{display:flex;align-items:center;justify-content:center;gap:12px;width:100%;max-width:420px;padding:16px 40px;border:none;border-radius:16px;cursor:pointer;background:linear-gradient(180deg,hsl(160,100%,55%) 0%,hsl(160,100%,45%) 100%);box-shadow:0 0 30px hsla(160,100%,50%,0.5),0 0 60px hsla(160,100%,50%,0.25),0 4px 15px hsla(0,0%,0%,0.3);transition:all 0.2s ease;margin-bottom:20px}
-.btn-activate:hover{transform:translateY(-2px);box-shadow:0 0 40px hsla(160,100%,50%,0.6),0 0 80px hsla(160,100%,50%,0.3),0 8px 25px hsla(0,0%,0%,0.4)}
-.btn-activate:active{transform:translateY(1px) scale(0.98)}
-.btn-activate span{font-size:14px;font-weight:700;color:hsl(160,20%,5%);letter-spacing:0.05em}
-.btn-activate svg{flex-shrink:0}
-.check-row{display:flex;align-items:center;gap:12px;margin-bottom:12px}
-.check-circle{width:40px;height:40px;border-radius:50%;background:hsl(160,100%,50%);display:flex;align-items:center;justify-content:center}
-.youre-in{font-size:clamp(2.2rem,6vw,3rem);font-weight:800;background:linear-gradient(180deg,#fff 0%,hsl(160,30%,60%) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.card-dark{background:hsl(160,10%,10%);border:1px solid hsl(160,15%,18%);border-radius:16px;padding:24px;width:100%;text-align:left;margin-bottom:16px}
-.card-dark h3{text-align:center;font-size:11px;font-weight:700;letter-spacing:0.2em;color:hsla(0,0%,100%,0.5);margin-bottom:24px}
-.step{display:flex;gap:16px;margin-bottom:20px}
-.step:last-child{margin-bottom:0}
-.step-num{width:28px;height:28px;border-radius:50%;background:hsl(160,100%,50%);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:hsl(160,20%,5%);flex-shrink:0}
-.step h4{font-size:14px;font-weight:700;margin-bottom:4px}
-.step p{font-size:12px;color:hsla(0,0%,100%,0.5);line-height:1.5}
-.card-important{background:hsl(160,10%,8%);border:1px solid hsl(0,70%,45%);border-radius:16px;padding:20px;width:100%;text-align:left;position:relative;margin-bottom:16px}
-.badge{position:absolute;top:-12px;right:16px;background:hsl(0,70%,50%);color:#fff;font-size:10px;font-weight:700;padding:4px 12px;border-radius:6px;letter-spacing:0.05em}
-.card-important .inner{display:flex;gap:12px;align-items:flex-start}
-.card-important h4{font-size:14px;font-weight:700;margin-bottom:4px}
-.card-important p{font-size:12px;color:hsla(0,0%,100%,0.5);line-height:1.5}
-.card-important .accent{color:hsl(160,100%,50%);font-weight:600}
-.footer{font-size:12px;color:hsla(0,0%,100%,0.4);margin-top:8px}
-.anim{opacity:0;animation:fadeSlideUp 0.5s ease forwards}
-@keyframes fadeSlideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-.screen{transition:opacity 0.4s ease;display:flex;flex-direction:column;align-items:center;text-align:center;width:100%}
-.screen.hidden{opacity:0;pointer-events:none;position:absolute}
-.screen.visible{opacity:1}
-@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:0.01ms!important;transition-duration:0.01ms!important}}
+:root{
+  --bg:#f5f5f5;--fg:#1a1a1a;--card:#fff;--card-fg:#1a1a1a;
+  --muted:#ededed;--muted-fg:#737373;--primary:#e0234e;--primary-fg:#fff;
+  --accent:#00e5ff;--accent-fg:#000;--border:#e0e0e0;--ring:#e0234e;
+}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+  background:var(--bg);color:var(--fg);-webkit-font-smoothing:antialiased;
+  -webkit-tap-highlight-color:transparent}
+#app{min-height:100dvh;display:flex;flex-direction:column;max-width:430px;margin:0 auto;
+  padding-top:env(safe-area-inset-top,0);padding-bottom:env(safe-area-inset-bottom,0);
+  padding-left:env(safe-area-inset-left,0);padding-right:env(safe-area-inset-right,0)}
+header{display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid var(--border);
+  background:var(--card);position:sticky;top:0;z-index:10}
+header .back{background:none;border:none;color:var(--fg);opacity:.7;cursor:pointer;padding:4px}
+header .info{flex:1;min-width:0}
+header .name{font-weight:600;font-size:14px;display:flex;align-items:center;gap:4px}
+header .sub{font-size:12px;color:var(--muted-fg)}
+header .icons{display:flex;gap:12px;color:var(--muted-fg)}
+main{flex:1;overflow-y:auto;padding:16px;scroll-behavior:smooth}
+.timestamp{text-align:center;margin-bottom:16px}
+.timestamp span{font-size:12px;color:var(--muted-fg);background:var(--muted);padding:4px 12px;border-radius:999px}
+.row{display:flex;align-items:flex-end;gap:8px;margin-bottom:12px}
+.row.right{justify-content:flex-end}
+.row.left{justify-content:flex-start}
+.avatar{width:32px;height:32px;flex-shrink:0}
+.avatar.empty{visibility:hidden}
+.bubble{max-width:75%;border-radius:16px;font-size:14px;line-height:1.5}
+.bubble.left{background:var(--card);color:var(--card-fg);box-shadow:0 1px 3px rgba(0,0,0,.06);border-bottom-left-radius:6px}
+.bubble.right{background:var(--accent);color:var(--accent-fg);border-bottom-right-radius:6px}
+.bubble-inner{padding:12px 16px}
+.highlight{color:var(--primary);font-weight:600}
+.link-text{color:var(--primary);font-weight:500}
+/* Typing dots */
+.typing-row{display:flex;align-items:flex-end;gap:8px;margin-bottom:12px}
+.typing-bubble{background:var(--card);border-radius:16px;border-bottom-left-radius:6px;box-shadow:0 1px 3px rgba(0,0,0,.06);
+  padding:14px 20px;display:flex;align-items:center;gap:5px}
+.typing-bubble .dot{width:9px;height:9px;border-radius:50%;background:#999;animation:tPulse 1.4s ease-in-out infinite}
+.typing-bubble .dot:nth-child(2){animation-delay:.2s}
+.typing-bubble .dot:nth-child(3){animation-delay:.4s}
+@keyframes tPulse{0%,100%{opacity:.35;transform:scale(.85)}50%{opacity:1;transform:scale(1)}}
+/* Helper tip */
+.tip{margin-left:40px;margin-bottom:16px;background:rgba(0,0,0,.04);border-radius:16px;padding:12px 16px;display:flex;align-items:flex-start;gap:12px}
+.tip-icon{width:32px;height:32px;border-radius:50%;flex-shrink:0;overflow:hidden}
+.tip-icon img{width:100%;height:100%;object-fit:cover}
+.tip-label{font-size:11px;font-weight:600;color:var(--primary);text-transform:uppercase;letter-spacing:.5px}
+.tip-text{font-size:12px;color:var(--muted-fg);margin-top:2px}
+/* Age buttons */
+.age-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+.age-btn{padding:12px 16px;border-radius:999px;border:2px solid var(--accent);background:var(--card);
+  font-size:14px;font-weight:500;color:var(--fg);cursor:pointer;transition:all .2s;outline:none}
+.age-btn:hover{background:rgba(0,229,255,.08)}
+.age-btn:active{transform:scale(.95)}
+.age-btn:focus-visible{box-shadow:0 0 0 3px rgba(224,35,78,.3)}
+/* Offer cards */
+.offer-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;padding:0 4px}
+.offer-btn{position:relative;border-radius:16px;padding:2px;cursor:pointer;border:none;text-align:left;
+  background:linear-gradient(135deg,#00e5ff,#ab47bc,#e91e63);transition:all .2s;outline:none}
+.offer-btn:hover{box-shadow:0 4px 16px rgba(0,0,0,.12)}
+.offer-btn:active{transform:scale(.97)}
+.offer-btn:focus-visible{box-shadow:0 0 0 3px rgba(224,35,78,.3)}
+.offer-inner{background:var(--card);border-radius:14px;padding:16px;height:100%}
+.offer-badge{position:absolute;top:-10px;left:50%;transform:translateX(-50%);font-size:10px;font-weight:700;
+  padding:3px 10px;border-radius:999px;color:#fff;white-space:nowrap}
+.offer-badge.cyan{background:linear-gradient(135deg,#00bcd4,#7c4dff)}
+.offer-badge.gold{background:linear-gradient(135deg,#ffa726,#ff9800)}
+.offer-title{font-size:14px;font-weight:700;margin-top:8px;color:var(--fg)}
+.offer-desc{font-size:12px;color:var(--muted-fg);margin-top:6px;line-height:1.4}
+.offer-methods{font-size:10px;color:rgba(115,115,115,.6);margin-top:8px}
+/* Congrats */
+.congrats{background:var(--card);border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,.08);padding:24px;text-align:center}
+.congrats h2{font-size:20px;font-weight:700;margin:12px 0 8px}
+.congrats .sub{font-size:14px;color:var(--muted-fg)}
+.congrats .amount{font-size:24px;font-weight:700;color:var(--accent);margin:12px 0}
+.congrats .small{font-size:12px;color:var(--muted-fg);margin-bottom:16px}
+.cta-btn{display:block;width:100%;padding:14px;border-radius:999px;border:none;background:var(--primary);
+  color:var(--primary-fg);font-size:14px;font-weight:600;cursor:pointer;text-decoration:none;text-align:center;transition:all .2s}
+.cta-btn:hover{opacity:.9}
+.cta-btn:active{transform:scale(.97)}
+/* Footer */
+footer{border-top:1px solid var(--border);background:var(--card);padding:12px 16px;display:flex;align-items:center;gap:12px}
+footer input{flex:1;background:var(--muted);border:none;border-radius:999px;padding:10px 16px;font-size:14px;
+  color:var(--muted-fg);outline:none}
+footer .send{width:40px;height:40px;border-radius:50%;background:#b0bec5;border:none;cursor:default;opacity:.5;
+  display:flex;align-items:center;justify-content:center}
+
+/* Animations */
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.fade-up{animation:fadeUp .35s ease-out both}
+.hidden{display:none}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
 </style>
-<meta name="twitter:image" content="https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/d5072099-796a-4c72-ba39-45fb2640c5e2/id-preview-19988ed7--8c68b666-5ac7-490b-b17c-3448dea46474.lovable.app-1771817371518.png" /></head>
+<meta name="twitter:image" content="https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/2e69cd5f-7150-48b9-a996-401cad117df3/id-preview-ab2cb168--f88184a9-6ed2-4204-99e3-07532c56b7b7.lovable.app-1770679580252.png" /></head>
 <body>
-<div class="bg-glow"></div>
+<div id="app">
+  <header>
+    <button class="back" aria-label="Go back"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+    <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="16" fill="#000"/><path d="M22.2 13.8a5.5 5.5 0 01-3.2-1v6.4a4.8 4.8 0 11-4.1-4.7v2.6a2.2 2.2 0 101.5 2.1V9h2.6a3 3 0 002.1 2.7v2.1z" fill="#25F4EE"/><path d="M21.2 12.8a5.5 5.5 0 01-3.2-1v6.4a4.8 4.8 0 11-4.1-4.7v2.6a2.2 2.2 0 101.5 2.1V8h2.6a3 3 0 002.1 2.7v2.1z" fill="#FE2C55"/><path d="M21.7 13.3a5.5 5.5 0 01-3.2-1v6.4a4.8 4.8 0 11-4.1-4.7v2.6a2.2 2.2 0 101.5 2.1V8.5h2.6a3 3 0 002.1 2.7v2.1z" fill="#fff"/></svg>
+    <div class="info">
+      <div class="name">TikTok Rewards <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="8" fill="#20D5EC"/><path d="M5 8l2 2 4-4" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="sub">Business chat</div>
+    </div>
+    <div class="icons">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
+    </div>
+  </header>
 
-<div class="container">
-  <!-- Screen A -->
-  <div id="screenA" class="screen visible">
-    <div class="logo-row anim" style="animation-delay:0s">
-      <img src="https://img.freepik.com/premium-vector/tik-tok-logo_578229-290.jpg?w=740&q=80" alt="TikTok">
-      <span>x</span>
-      <img src="https://play-lh.googleusercontent.com/YLkvgZgB-vkugb0xj6Wi4MrxP37ULDc4UsYoARanNtvK5s0U6Ppju_eSCcynUnhd9EY" alt="testerup">
-    </div>
-    <h1 class="headline anim" style="animation-delay:0.1s">Get Paid To Game</h1>
-    <p class="subtext anim" style="animation-delay:0.2s">Join thousands earning daily by playing popular games like Roblox, Subway Surfers, 8 Ball Pool, etc.</p>
-    <button class="btn-neon anim" style="animation-delay:0.3s" onclick="showScreenB()">
-      <span class="main">I'm over 21</span>
-      <span class="sub">Instant Payouts: PayPal, CashApp, Venmo, Crypto & Wire</span>
-    </button>
-    <button class="btn-dark anim" style="animation-delay:0.4s" onclick="showScreenB()">
-      <span class="main">I'm under 21</span>
-      <span class="sub">Limited Payouts: Wire Transfer Only</span>
-    </button>
-  </div>
+  <main id="chat"></main>
 
-  <!-- Screen B -->
-  <div id="screenB" class="screen hidden" style="display:none">
-    <div class="logo-row anim" style="animation-delay:0s">
-      <img src="https://img.freepik.com/premium-vector/tik-tok-logo_578229-290.jpg?w=740&q=80" alt="TikTok">
-      <span>x</span>
-      <img src="https://play-lh.googleusercontent.com/YLkvgZgB-vkugb0xj6Wi4MrxP37ULDc4UsYoARanNtvK5s0U6Ppju_eSCcynUnhd9EY" alt="testerup">
-    </div>
-    <div class="check-row anim" style="animation-delay:0.1s">
-      <div class="check-circle">
-        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5 10l3.5 3.5L15 7" stroke="hsl(160,20%,5%)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </div>
-      <span class="youre-in">You're In!</span>
-    </div>
-    <p class="subtext anim" style="animation-delay:0.15s;margin-bottom:20px">Your account is pre-qualified for higher payouts.
-<br>Sign up for testerup to gain full access.</p>
-    <button class="btn-activate anim" style="animation-delay:0.2s" onclick="handleActivate()">
-<svg width="20" height="20" viewBox="0 0 24 24" fill="hsl(160,20%,5%)">
-<path
-              d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"
-            />
-</svg>
-      <span>START EARNING NOW</span>
-    </button>
-    <div class="card-dark anim" style="animation-delay:0.3s">
-      <h3>YOUR EARNING JOURNEY</h3>
-      <div class="step"><div class="step-num">1</div><div><h4>Download the testerup App</h4><p>Available on iOS & Android • Takes less than 60 seconds</p></div></div>
-      <div class="step"><div class="step-num">2</div><div><h4>Complete Starter Offers</h4><p>Play games, try apps, or complete simple challenges<br>Unlock access to popular gaming rewards. (Roblox, 8 Ball Pool, Subway Surfers)</p></div></div>
-      <div class="step"><div class="step-num">3</div><div><h4>Cash Out Your Earnings</h4><p>Instant Payouts: PayPal, CashApp, Venmo, Crypto & Wire</p></div></div>
-    </div>
-    <div class="card-important anim" style="animation-delay:0.4s">
-      <span class="badge">IMPORTANT</span>
-      <div class="inner">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" style="flex-shrink:0;margin-top:2px"><rect x="5" y="11" width="14" height="10" rx="2" stroke="hsl(0,70%,50%)" stroke-width="2"/><path d="M8 11V7a4 4 0 118 0v4" stroke="hsl(0,70%,50%)" stroke-width="2" stroke-linecap="round"/></svg>
-        <div><h4>Activation Required</h4><p>New users: Complete <span class="accent">2 quick offers</span> to unlock full access and start earning with Top Games like Roblox, 8 Ball Pool, Subway Surfers, and more.</p></div>
-      </div>
-    </div>
-    <p class="footer anim" style="animation-delay:0.5s">Trusted by over 500,000 users earning money daily</p>
-  </div>
+  <footer>
+    <input type="text" readonly id="footerInput" placeholder="Please select from the options above" aria-label="Chat input">
+    <button class="send" aria-label="Send" disabled><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M22 2L11 13" stroke="#fff" stroke-width="2" stroke-linecap="round"/><path d="M22 2l-7 20-4-9-9-4 20-7z" fill="#fff" stroke="#fff" stroke-width="1"/></svg></button>
+  </footer>
 </div>
 
 <script>
-function showScreenB(){
-  var a=document.getElementById('screenA');
-  var b=document.getElementById('screenB');
-  a.classList.remove('visible');
-  a.classList.add('hidden');
-  setTimeout(function(){
-    a.style.display='none';
-    b.style.display='';
-    b.classList.remove('hidden');
-    b.classList.add('visible');
-    b.querySelectorAll('.anim').forEach(function(el){
-      el.style.animation='none';
-      el.offsetHeight;
-      el.style.animation='';
-    });
-  },400);
+const chat = document.getElementById('chat');
+const footerInput = document.getElementById('footerInput');
+const TIKTOK_SVG = '<svg width="32" height="32" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="16" fill="#000"/><path d="M22.2 13.8a5.5 5.5 0 01-3.2-1v6.4a4.8 4.8 0 11-4.1-4.7v2.6a2.2 2.2 0 101.5 2.1V9h2.6a3 3 0 002.1 2.7v2.1z" fill="#25F4EE"/><path d="M21.2 12.8a5.5 5.5 0 01-3.2-1v6.4a4.8 4.8 0 11-4.1-4.7v2.6a2.2 2.2 0 101.5 2.1V8h2.6a3 3 0 002.1 2.7v2.1z" fill="#FE2C55"/><path d="M21.7 13.3a5.5 5.5 0 01-3.2-1v6.4a4.8 4.8 0 11-4.1-4.7v2.6a2.2 2.2 0 101.5 2.1V8.5h2.6a3 3 0 002.1 2.7v2.1z" fill="#fff"/></svg>';
+
+function getCTALink(){
+  const base='https://www.phef6trk.com/QZ85XF/2JSKXKP/';
+  const params=new URLSearchParams(window.location.search);
+  const forward=new URLSearchParams();
+  ['sub1','sub2','sub3'].forEach(k=>{if(params.has(k))forward.set(k,params.get(k))});
+  const qs=forward.toString();
+  return qs?base+'?'+qs:base;
 }
-function handleActivate(){
-  var params=new URLSearchParams(window.location.search);
-  var allowed=['sub1','sub2','sub3','sub4','sub5'];
-  var filtered=new URLSearchParams();
-  allowed.forEach(function(k){
-    var v=params.get(k);
-    if(v!==null)filtered.set(k,v);
+
+function scrollBottom(){setTimeout(()=>chat.scrollTop=chat.scrollHeight,80)}
+
+function showTyping(){
+  const el=document.createElement('div');
+  el.className='typing-row fade-up';
+  el.innerHTML=`<div class="avatar">${TIKTOK_SVG}</div><div class="typing-bubble"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>`;
+  chat.appendChild(el);
+  scrollBottom();
+  return el;
+}
+
+function addBubble(html,side='left',avatar=false){
+  const row=document.createElement('div');
+  row.className=`row ${side} fade-up`;
+  if(side==='left'){
+    row.innerHTML=`<div class="avatar ${avatar?'':'empty'}">${avatar?TIKTOK_SVG:''}</div><div class="bubble left"><div class="bubble-inner">${html}</div></div>`;
+  }else{
+    row.innerHTML=`<div class="bubble right"><div class="bubble-inner">${html}</div></div>`;
+  }
+  chat.appendChild(row);
+  scrollBottom();
+}
+
+function addHTML(html){
+  const el=document.createElement('div');
+  el.className='fade-up';
+  el.innerHTML=html;
+  chat.appendChild(el);
+  scrollBottom();
+  return el;
+}
+
+function typeThenShow(html,side,avatar,typeDur){
+  return new Promise(r=>{
+    const t=showTyping();
+    setTimeout(()=>{t.remove();addBubble(html,side,avatar);r()},typeDur);
   });
-  var qs=filtered.toString();
-  var base='https://www.phef6trk.com/QZ85XF/2JSKXKP/';
-  window.location.href=qs?base+'?'+qs:base;
 }
+
+function wait(ms){return new Promise(r=>setTimeout(r,ms))}
+
+async function step1(){
+  // Add timestamp
+  const now=new Date();
+  const h=now.getHours();const m=now.getMinutes();
+  const ampm=h>=12?'PM':'AM';const h12=h%12||12;
+  const timeStr=`Today ${h12}:${m.toString().padStart(2,'0')} ${ampm}`;
+  addHTML(`<div class="timestamp"><span>${timeStr}</span></div>`);
+
+  await typeThenShow(`Hello 👋<br><br>We're inviting a small group of TikTok users to join the new TikTok Rewards Program.<br><br>Try new apps & features, share feedback, and earn weekly rewards for your time. Some members earn up to <span class="highlight">$3,500+/week</span> during active cycles.`,'left',true,2200);
+  await wait(400);
+  await typeThenShow(`<span class="link-text">Let's get started!</span>`,'left',false,1000);
+  await wait(300);
+  await typeThenShow(`How old are you?`,'left',true,900);
+  await wait(200);
+
+  // Tip
+  addHTML(`<div class="tip"><div class="tip-icon"><img src="https://i.imgur.com/B0rQEy0.png" alt=""></div><div><div class="tip-label">Helper Tip</div><div class="tip-text">Select your age range from the options below.</div></div></div>`);
+
+  // Age buttons
+  const grid=document.createElement('div');
+  grid.className='age-grid fade-up';
+  ['18–20','21–34','35–44','45+'].forEach(age=>{
+    const btn=document.createElement('button');
+    btn.className='age-btn';
+    btn.textContent=age;
+    btn.setAttribute('aria-label',`Select age ${age}`);
+    btn.onclick=()=>selectAge(age,grid);
+    grid.appendChild(btn);
+  });
+  chat.appendChild(grid);
+  scrollBottom();
+}
+
+function selectAge(age,grid){
+  grid.remove();
+  addBubble(age,'right');
+  setTimeout(()=>step2(),400);
+}
+
+async function step2(){
+  await typeThenShow(`Perfect! Based on your preferences, here are the best reward platforms available right now.<br><br>Which one would you like to get started with?`,'left',true,2000);
+  await wait(300);
+
+  const grid=document.createElement('div');
+  grid.className='offer-grid fade-up';
+  grid.innerHTML=`
+    <button class="offer-btn" aria-label="Select Offer 1" onclick="selectOffer('Offer 1',this.parentElement)">
+      <span class="offer-badge cyan">$3,500+/week</span>
+      <div class="offer-inner">
+        <div class="offer-title">Offer 1</div>
+        <div class="offer-desc">Test apps and earn rewards</div>
+        <div class="offer-methods">PayPal, e-Transfer, Amazon Gift Card, Visa</div>
+      </div>
+    </button>
+    <button class="offer-btn" aria-label="Select Offer 2" onclick="selectOffer('Offer 2',this.parentElement)">
+      <span class="offer-badge gold">$4,500+/week</span>
+      <div class="offer-inner">
+        <div class="offer-title">Offer 2</div>
+        <div class="offer-desc">Play casual games and earn rewards</div>
+        <div class="offer-methods">Apple Pay, PayPal, Cash App</div>
+      </div>
+    </button>`;
+  chat.appendChild(grid);
+  scrollBottom();
+}
+
+window.selectOffer=function(offer,grid){
+  grid.remove();
+  addBubble(offer,'right');
+  setTimeout(()=>step3(),400);
+};
+
+async function step3(){
+  footerInput.placeholder='Please wait...';
+  await wait(600);
+  const t=showTyping();
+  await wait(1500);
+  t.remove();
+
+  const row=document.createElement('div');
+  row.className='row left fade-up';
+  row.innerHTML=`<div class="avatar">${TIKTOK_SVG}</div><div class="congrats">
+    <svg width="56" height="56" viewBox="0 0 56 56" fill="none"><circle cx="28" cy="28" r="28" fill="#E8F5E9"/><circle cx="28" cy="28" r="22" fill="#4CAF50"/><path d="M20 28l5 5 11-11" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <h2>Congratulations!</h2>
+    <div class="sub">You are eligible to get the app and make up to</div>
+    <div class="amount">$5,000/week</div>
+    <div class="small">Click below to get started and start earning today!</div>
+    <a href="${getCTALink()}" target="_blank" rel="noopener noreferrer" class="cta-btn" aria-label="Get Started Now">Get Started Now</a>
+  </div>`;
+  chat.appendChild(row);
+  scrollBottom();
+}
+
+step1();
 </script>
 </body>
-
 </html>
-
