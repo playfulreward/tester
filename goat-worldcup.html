@@ -1,0 +1,1513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>$GOAT — Claim Your Seat | Solana Memecoin</title>
+<meta name="description" content="$GOAT is a Solana memecoin built for tournament season. Lock liquidity, lock your seat, and join the squad before kickoff." />
+<meta name="theme-color" content="#06120A" />
+
+<!-- ===================================================================
+  SCHOOL PROJECT DEMO FILE
+  This is a from-scratch recreation of a generic "memecoin landing page"
+  layout (hero / gallery / ticket-style CTA / about / community / stats /
+  press / footer), restyled around a World Cup theme with a Portugal-flag
+  palette. All copy, illustrations and data below are original/fictional
+  placeholders — contract address, news outlets, and social links are NOT
+  real and should be swapped for your own before deploying anywhere.
+=================================================================== -->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+<style>
+  /* =========================== TOKENS =========================== */
+  :root{
+    --pitch-black:#06120A;
+    --surface:#0C1B12;
+    --surface-2:#102418;
+    --line:rgba(242,194,48,0.14);
+    --line-strong:rgba(242,194,48,0.28);
+
+    --green:#0E6B3A;
+    --green-deep:#073D21;
+    --green-bright:#17A152;
+
+    --red:#D11C2E;
+    --red-deep:#8C1320;
+    --red-bright:#EF233C;
+
+    --gold:#F2C230;
+    --gold-dim:#C79A1F;
+
+    --chalk:#F6F4EC;
+    --chalk-dim:#B9C2BA;
+    --chalk-faint:#7C8B81;
+    --nav-text:#8B93A0;
+
+    --radius:14px;
+    --radius-sm:8px;
+    --maxw:1180px;
+
+    --font-display:'Space Grotesk', sans-serif;
+    --font-body:'Inter', sans-serif;
+    --font-mono:'JetBrains Mono', monospace;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--pitch-black);
+    color:var(--chalk);
+    font-family:var(--font-body);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  img,svg{display:block;max-width:100%;}
+  a{color:inherit;text-decoration:none;}
+  ul{margin:0;padding:0;list-style:none;}
+  button{font-family:inherit;cursor:pointer;}
+  :focus-visible{outline:2px solid var(--gold);outline-offset:3px;}
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.001ms !important;animation-iteration-count:1 !important;transition-duration:0.001ms !important;scroll-behavior:auto !important;}
+  }
+
+  /* background pitch-line texture */
+  .pitch-texture{
+    position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.5;
+    background:
+      radial-gradient(circle at 50% 0%, rgba(15,107,58,.18), transparent 55%),
+      repeating-linear-gradient(0deg, rgba(255,255,255,0.018) 0 2px, transparent 2px 64px);
+  }
+
+  .container{max-width:var(--maxw);margin:0 auto;padding:0 24px;position:relative;z-index:1;}
+  .container-wide{max-width:1320px;margin:0 auto;padding:0 24px;position:relative;z-index:1;}
+  .center{text-align:center;}
+
+  .eyebrow{
+    font-family:var(--font-mono);
+    font-size:12px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--gold);margin:0 0 10px;
+  }
+  .section-title{
+    font-family:var(--font-display);
+    font-weight:700;
+    font-size:clamp(30px,4.4vw,52px);
+    line-height:1.04;
+    letter-spacing:-0.01em;
+    text-transform:uppercase;
+    margin:0;
+    color:var(--chalk);
+  }
+  .section-title .accent{color:var(--gold);}
+  .section{padding:96px 0;position:relative;z-index:1;}
+  .section-alt{background:linear-gradient(180deg, var(--surface), var(--pitch-black));}
+
+  /* =========================== RIBBON =========================== */
+  .ribbon{
+    position:relative;z-index:40;
+    background:var(--red);
+    overflow:hidden;
+    height:46px;
+    display:flex;
+    align-items:center;
+  }
+  .ribbon-track{display:flex;white-space:nowrap;animation:scrollLeft 22s linear infinite;}
+  .ribbon-track span{
+    font-family:var(--font-body);
+    font-weight:800;
+    font-size:14px;
+    letter-spacing:.08em;
+    color:var(--chalk);
+    padding:0 36px;
+    text-transform:uppercase;
+  }
+  @keyframes scrollLeft{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+
+  /* =========================== NAV =========================== */
+  .navbar{
+    position:sticky;top:0;z-index:60;
+    background:rgba(6,18,10,0.92);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav-inner{
+    max-width:var(--maxw);margin:0 auto;padding:13px 28px;
+    display:flex;align-items:center;justify-content:space-between;gap:20px;
+  }
+  .nav-left{display:flex;align-items:center;gap:16px;}
+  .brand{
+    font-family:var(--font-display);
+    font-weight:800;
+    font-size:28px;letter-spacing:-0.01em;
+    color:var(--chalk);
+    display:flex;align-items:center;gap:8px;
+  }
+  .brand .dot{color:var(--gold);}
+  .nav-socials{display:flex;align-items:center;gap:8px;}
+  .nav-links{display:flex;align-items:center;gap:30px;}
+  .nav-links a{
+    font-size:12px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--nav-text);
+    transition:color .15s;
+  }
+  .nav-links a:hover{color:var(--gold);}
+  .nav-right{display:flex;align-items:center;gap:24px;}
+  .nav-textlinks{display:flex;align-items:center;gap:22px;}
+  .nav-textlinks a{
+    font-size:12px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--nav-text);
+    transition:color .15s;
+  }
+  .nav-textlinks a:hover{color:var(--gold);}
+  .icon-btn{
+    width:30px;height:30px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    background:var(--surface-2);border:1px solid var(--line);
+    color:var(--chalk-dim);
+    transition:border-color .15s,color .15s;
+  }
+  .icon-btn:hover{border-color:var(--gold);color:var(--gold);}
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:8px;
+    font-family:var(--font-body);font-weight:700;font-size:14px;
+    padding:11px 22px;border-radius:999px;
+    border:1px solid transparent;
+    transition:transform .15s ease, box-shadow .15s ease, background .15s;
+    cursor:pointer;
+  }
+  .btn:active{transform:translateY(1px);}
+  .btn-primary{
+    background:var(--red);color:var(--chalk);
+    box-shadow:0 0 0 0 rgba(209,28,46,.6);
+  }
+  .btn-primary:hover{background:var(--red-bright);box-shadow:0 6px 22px rgba(209,28,46,.4);}
+  .btn-ghost{
+    background:transparent;border-color:var(--line-strong);color:var(--chalk);
+  }
+  .btn-ghost:hover{border-color:var(--gold);color:var(--gold);}
+  .nav-buy{
+    padding:12px 24px;font-size:15px;border-radius:8px;font-weight:700;color:#FFFFFF;
+  }
+  .hamburger{
+    display:none;background:none;border:none;color:var(--chalk);
+    padding:8px;width:40px;height:40px;align-items:center;justify-content:center;
+  }
+
+  /* =========================== HERO =========================== */
+  .hero{
+    position:relative;
+    padding:84px 0 70px;
+    overflow:hidden;
+    background:var(--pitch-black);
+  }
+  .hero-video{
+    position:absolute;inset:0;z-index:0;
+    width:100%;height:100%;object-fit:cover;
+  }
+  .hero-video-overlay{
+    position:absolute;inset:0;z-index:1;
+    background:
+      radial-gradient(ellipse 900px 500px at 18% -10%, rgba(14,107,58,.55), transparent 60%),
+      radial-gradient(ellipse 900px 500px at 100% 0%, rgba(209,28,46,.35), transparent 55%),
+      rgba(6,18,10,0.72);
+  }
+  .hero-floodlights{
+    position:absolute;inset:0;z-index:2;opacity:.6;pointer-events:none;
+  }
+  .hero-center{
+    max-width:880px;margin:0 auto;text-align:center;
+    position:relative;z-index:3;
+  }
+  .badge{
+    display:inline-flex;align-items:center;gap:8px;
+    font-family:var(--font-mono);font-size:12.5px;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--chalk);
+    background:var(--surface-2);border:1px solid var(--line-strong);
+    padding:8px 18px;border-radius:999px;margin-bottom:28px;
+  }
+  .badge .pulse-dot{width:7px;height:7px;border-radius:50%;background:var(--gold);animation:pulse 1.6s ease-in-out infinite;}
+  @keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.4;transform:scale(.7);}}
+
+  .hero h1{
+    font-family:var(--font-display);
+    font-weight:800;
+    font-size:clamp(58px,9.5vw,136px);
+    line-height:.94;
+    letter-spacing:-0.02em;
+    text-transform:uppercase;
+    margin:0 0 26px;
+    background:linear-gradient(180deg, var(--chalk) 35%, var(--gold) 130%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .hero h1 .line2{background:linear-gradient(180deg, var(--gold) 0%, var(--red-bright) 160%);-webkit-background-clip:text;background-clip:text;color:transparent;}
+  .hero-sub{
+    font-size:21px;font-weight:600;color:var(--chalk-dim);margin:0 0 32px;
+  }
+  .hero-actions{display:flex;justify-content:center;flex-wrap:wrap;gap:14px;margin-bottom:18px;}
+  .btn-lg{
+    padding:28px 68px;font-size:20px;letter-spacing:.01em;
+    border-radius:16px;
+    animation:btnPulse 2.2s ease-out infinite;
+  }
+  @keyframes btnPulse{
+    0%{box-shadow:0 0 0 0 rgba(209,28,46,.55);}
+    70%{box-shadow:0 0 0 22px rgba(209,28,46,0);}
+    100%{box-shadow:0 0 0 0 rgba(209,28,46,0);}
+  }
+
+  .learn-more-link{
+    display:block;font-size:14px;color:var(--chalk-faint);
+    margin-bottom:20px;text-decoration:underline;text-underline-offset:3px;
+    transition:color .15s;
+  }
+  .learn-more-link:hover{color:var(--gold);}
+
+  .ca-chip{
+    display:inline-flex;align-items:center;gap:10px;
+    background:var(--surface-2);border:1px solid var(--line);
+    border-radius:999px;padding:9px 9px 9px 18px;
+    font-family:var(--font-mono);font-size:13px;color:var(--chalk-dim);
+    cursor:pointer;max-width:100%;
+  }
+  .ca-chip strong{color:var(--gold);font-weight:700;margin-right:2px;}
+  .ca-chip .ca-val{
+    overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:230px;color:var(--chalk);
+  }
+  .ca-chip .copy-ico{
+    width:26px;height:26px;border-radius:50%;background:var(--surface);
+    display:flex;align-items:center;justify-content:center;flex:none;
+    border:1px solid var(--line);color:var(--chalk-dim);
+  }
+  .ca-chip:hover .copy-ico{color:var(--gold);border-color:var(--gold);}
+  .toast{
+    position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(20px);
+    background:var(--gold);color:var(--pitch-black);font-weight:700;font-size:13px;
+    padding:10px 20px;border-radius:999px;opacity:0;transition:opacity .2s, transform .2s;
+    z-index:200;pointer-events:none;
+  }
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+  .hero-scoreboard-row{
+    max-width:340px;margin:48px auto 0;text-align:center;position:relative;z-index:3;
+  }
+
+  /* ---- scoreboard signature element ---- */
+  .scoreboard{
+    background:linear-gradient(180deg, var(--surface-2), var(--surface));
+    border:1px solid var(--line-strong);
+    border-radius:var(--radius);
+    padding:22px 22px 18px;
+    box-shadow:0 30px 60px -20px rgba(0,0,0,.6), inset 0 1px 0 rgba(255,255,255,.03);
+    position:relative;
+  }
+  .scoreboard::before{
+    content:'LIVE';
+    position:absolute;top:-11px;left:22px;
+    background:var(--red);color:var(--chalk);
+    font-family:var(--font-mono);font-size:11px;font-weight:700;letter-spacing:.08em;
+    padding:3px 10px;border-radius:5px;
+  }
+  .scoreboard-teams{
+    display:flex;align-items:center;justify-content:space-between;gap:14px;margin-top:10px;
+  }
+  .team{flex:1;text-align:center;}
+  .team-name{
+    font-family:var(--font-display);font-weight:600;font-size:15px;letter-spacing:.02em;
+    color:var(--chalk-dim);text-transform:uppercase;
+  }
+  .team.goat .team-name{color:var(--gold);}
+  .score{
+    font-family:var(--font-mono);font-size:42px;font-weight:700;
+    color:var(--chalk);line-height:1;margin-top:4px;
+  }
+  .score-sep{font-family:var(--font-mono);font-size:30px;color:var(--chalk-faint);padding:0 6px;}
+  .scoreboard-clock{
+    margin-top:18px;padding-top:16px;border-top:1px dashed var(--line);
+    display:flex;align-items:center;justify-content:space-between;
+  }
+  .clock-label{font-family:var(--font-mono);font-size:11px;color:var(--chalk-faint);letter-spacing:.1em;text-transform:uppercase;}
+  .clock-time{font-family:var(--font-mono);font-size:22px;font-weight:700;color:var(--gold);letter-spacing:.05em;}
+
+  .hero-side-note{
+    margin-top:16px;font-size:12.5px;color:var(--chalk-faint);text-align:center;
+  }
+
+  /* =========================== GALLERY =========================== */
+  .gallery-head{margin-bottom:42px;}
+  .gallery-wrap{position:relative;}
+  .gallery-track{
+    display:flex;gap:20px;overflow-x:auto;scroll-snap-type:x mandatory;
+    padding-bottom:10px; scrollbar-width:none;
+  }
+  .gallery-track::-webkit-scrollbar{display:none;}
+  .card-post{
+    scroll-snap-align:start;
+    flex:0 0 280px;
+    border-radius:var(--radius);
+    overflow:hidden;
+    border:1px solid var(--line);
+    background:var(--surface);
+  }
+  .card-post-art{
+    height:180px;position:relative;overflow:hidden;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .flag-pair{display:flex;align-items:center;gap:14px;}
+  .flag-svg{width:78px;height:52px;border-radius:5px;box-shadow:0 6px 18px rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.18);}
+  .flag-single .flag-svg{width:110px;height:74px;}
+  .flag-vs{font-family:var(--font-display);font-weight:700;font-size:13px;color:var(--chalk);letter-spacing:.05em;opacity:.85;}
+  .card-post-cap{padding:16px 18px 20px;}
+  .card-post-cap .tag{font-family:var(--font-mono);font-size:11px;color:var(--gold);letter-spacing:.08em;text-transform:uppercase;}
+  .card-post-cap h4{font-family:var(--font-display);font-weight:600;font-size:18px;margin:6px 0 4px;letter-spacing:-0.005em;text-transform:uppercase;}
+  .card-post-cap p{font-size:13px;color:var(--chalk-dim);margin:0;}
+
+  .gal-arrows{display:flex;gap:10px;justify-content:flex-end;margin-top:18px;}
+  .gal-arrow{
+    width:42px;height:42px;border-radius:50%;border:1px solid var(--line-strong);
+    background:var(--surface-2);color:var(--chalk);
+    display:flex;align-items:center;justify-content:center;
+    transition:border-color .15s,color .15s;
+  }
+  .gal-arrow:hover{border-color:var(--gold);color:var(--gold);}
+
+  /* =========================== MATCH DAY BOOKING =========================== */
+  .booking-grid{display:grid;grid-template-columns:1.3fr 1fr;gap:80px;align-items:center;}
+  .booking-grid h2{margin-bottom:16px;}
+  .booking-grid p.lead{color:var(--chalk-dim);font-size:16px;margin:0 0 18px;max-width:440px;}
+  .booking-fine{
+    font-size:12.5px;color:var(--chalk-faint);
+    border-left:2px solid var(--line-strong);padding-left:12px;max-width:440px;
+  }
+  .ticket-card{
+    max-width:340px;margin-left:auto;
+    background:linear-gradient(165deg, var(--surface) 0%, var(--surface-2) 100%);
+    border:1px solid var(--line-strong);
+    border-radius:var(--radius);
+    padding:20px;
+    position:relative;
+    box-shadow:0 0 0 1px rgba(242,194,48,.08), 0 40px 80px -30px rgba(0,0,0,.7);
+  }
+  .ticket-card::before{
+    content:'';position:absolute;inset:-2px;z-index:-1;border-radius:calc(var(--radius) + 2px);
+    background:radial-gradient(ellipse 420px 220px at 30% 0%, rgba(14,107,58,.5), transparent 65%),
+               radial-gradient(ellipse 420px 220px at 90% 100%, rgba(209,28,46,.4), transparent 65%);
+    filter:blur(18px);opacity:.9;
+  }
+  .ticket-card::after{
+    content:'';position:absolute;left:0;right:0;top:-11px;height:22px;
+    background:
+      radial-gradient(circle 11px at 11px 11px, var(--pitch-black) 99%, transparent 100%),
+      radial-gradient(circle 11px at calc(100% - 11px) 11px, var(--pitch-black) 99%, transparent 100%);
+  }
+  .ticket-perf{
+    position:absolute;top:14px;bottom:14px;right:84px;
+    border-left:2px dashed var(--line-strong);
+    opacity:.6;pointer-events:none;
+  }
+  .ticket-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:11px;}
+  .ticket-admit{
+    font-family:var(--font-mono);font-size:9.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--gold);border:1px solid var(--line-strong);padding:3px 8px;border-radius:999px;
+  }
+  .ticket-edition{font-family:var(--font-mono);font-size:9px;letter-spacing:.07em;text-transform:uppercase;color:var(--chalk-faint);}
+  .ticket-match{
+    font-family:var(--font-display);font-weight:700;font-size:17px;letter-spacing:-0.01em;text-transform:uppercase;
+    text-align:center;margin:4px 0 14px;color:var(--chalk);
+  }
+  .ticket-match .vs{color:var(--gold);font-size:11px;margin:0 5px;vertical-align:middle;}
+  .ticket-row{display:flex;align-items:center;gap:9px;padding:9px 0;}
+  .ticket-row svg{flex:none;color:var(--gold);width:14px;height:14px;}
+  .ticket-row .lbl{font-family:var(--font-mono);font-size:9.5px;color:var(--chalk-faint);letter-spacing:.07em;text-transform:uppercase;display:block;}
+  .ticket-row .val{font-size:13.5px;font-weight:600;color:var(--chalk);}
+  .ticket-row.full{padding:9px 0;}
+  .ticket-divider{border-top:1px dashed var(--line);margin:2px 0;}
+  .ticket-cells{display:grid;grid-template-columns:1fr 1fr;gap:0;}
+  .ticket-cells .ticket-row{border-right:1px dashed var(--line);}
+  .ticket-cells .ticket-row:last-child{border-right:none;padding-left:12px;}
+  .perk-strip{
+    margin-top:11px;background:var(--green-deep);border:1px solid var(--line);
+    color:var(--gold);font-size:11px;font-weight:600;
+    padding:7px 12px;border-radius:var(--radius-sm);text-align:center;
+  }
+  .btn-book{
+    width:100%;margin-top:14px;background:var(--red);color:var(--chalk);
+    border:none;padding:11px;border-radius:999px;font-weight:700;font-size:13px;
+    transition:background .15s;
+  }
+  .btn-book:hover{background:var(--red-bright);}
+  .ticket-stub{
+    display:flex;align-items:center;gap:11px;margin-top:14px;padding-top:13px;
+    border-top:1px dashed var(--line);
+  }
+  .ticket-qr{width:42px;height:42px;flex:none;background:var(--pitch-black);border-radius:4px;padding:3px;}
+  .ticket-barcode{display:flex;align-items:flex-end;gap:1.2px;height:24px;flex:none;}
+  .ticket-barcode span{display:block;width:2px;height:100%;background:var(--chalk-faint);opacity:.8;}
+  .ticket-micro{display:flex;flex-direction:column;gap:2px;margin-left:auto;text-align:right;}
+  .ticket-micro span{font-family:var(--font-mono);font-size:8px;letter-spacing:.07em;text-transform:uppercase;color:var(--chalk-faint);}
+  .ticket-tos{font-size:11.5px;color:var(--chalk-faint);text-align:center;margin-top:12px;}
+  .ticket-tos a{text-decoration:underline;color:var(--chalk-dim);}
+
+  .hype-banner{
+    max-width:340px;margin:14px 0 0 auto;
+    display:flex;align-items:center;gap:12px;
+    background:var(--green-deep);
+    border:1px solid var(--line-strong);
+    border-left:3px solid var(--red);
+    border-radius:var(--radius-sm);
+    padding:12px 14px;
+  }
+  .hype-flag{width:30px;height:20px;flex:none;border-radius:3px;box-shadow:0 0 0 1px rgba(255,255,255,.15);}
+  .hype-text{min-width:0;}
+  .hype-label{
+    display:block;font-family:var(--font-mono);font-size:10px;font-weight:700;letter-spacing:.08em;
+    text-transform:uppercase;color:var(--gold);margin-bottom:4px;
+  }
+  .hype-text p{font-size:12.5px;line-height:1.4;color:var(--chalk-dim);margin:0;}
+  .hype-text p.hype-sub{color:var(--chalk);font-weight:600;margin-top:3px;}
+
+  /* =========================== LEGAL =========================== */
+  .legal-overlay{
+    display:none;
+    position:fixed;inset:0;z-index:200;
+    background:var(--pitch-black);
+    overflow-y:auto;
+  }
+  .legal-overlay.open{display:block;}
+  .legal-back{
+    display:inline-flex;align-items:center;gap:8px;background:none;border:none;cursor:pointer;
+    font-family:var(--font-body);font-weight:600;font-size:14px;color:var(--chalk-dim);
+    margin-bottom:28px;padding:0;
+    transition:color .15s;
+  }
+    display:flex;align-items:center;gap:8px;background:none;border:none;cursor:pointer;
+    font-family:var(--font-body);font-weight:600;font-size:14px;color:var(--chalk-dim);
+    transition:color .15s;
+  }
+  .legal-back:hover{color:var(--gold);}
+  .legal-overlay .container{padding-top:48px;padding-bottom:80px;}
+
+  /* =========================== BUY OVERLAY =========================== */
+  .buy-overlay{
+    display:block;
+    position:fixed;left:0;right:0;bottom:0;top:110px;z-index:50;
+    background:var(--pitch-black);
+    overflow-y:auto;
+    opacity:0;visibility:hidden;pointer-events:none;
+    transform:translateY(14px);
+    transition:opacity .3s ease, transform .3s ease, visibility .3s;
+  }
+  .buy-overlay.open{opacity:1;visibility:visible;pointer-events:auto;transform:translateY(0);}
+  .buy-overlay .container{padding-top:48px;padding-bottom:60px;}
+  .buy-wrap{max-width:460px;margin:0 auto;text-align:center;}
+  .buy-back-top{margin-bottom:48px;}
+  .buy-title{
+    font-family:var(--font-display);font-weight:700;font-size:30px;text-transform:uppercase;
+    letter-spacing:-0.01em;color:var(--chalk);margin:0 0 16px;
+  }
+  .buy-desc{font-size:15px;line-height:1.6;color:var(--chalk-dim);margin:0 0 32px;}
+  .buy-btn{
+    display:flex;align-items:center;justify-content:center;gap:10px;
+    width:100%;border-radius:14px;
+    font-family:var(--font-body);font-weight:700;
+    border:none;cursor:pointer;text-decoration:none;
+    transition:transform .15s ease, box-shadow .2s ease, background .15s;
+  }
+  .buy-btn:active{transform:translateY(1px);}
+  .buy-btn-green{
+    padding:30px 22px;font-size:19px;
+    background:var(--green-bright);color:#FFFFFF;margin-bottom:16px;
+    box-shadow:0 0 28px rgba(23,161,82,.45);
+  }
+  .buy-btn-green:hover{background:#1FC25E;}
+  .buy-btn-dark{
+    padding:18px 22px;font-size:15px;
+    background:var(--surface-2);color:var(--chalk);border:1px solid var(--line-strong);
+  }
+  .buy-btn-dark:hover{border-color:var(--gold);color:var(--gold);}
+  .buy-btn-purple{
+    padding:20px 22px;font-size:16px;
+    background:linear-gradient(135deg,#8A5FD6,#5B2A86);color:#fff;margin-bottom:18px;
+    box-shadow:0 0 28px rgba(138,95,214,.45);
+  }
+  .buy-btn-purple:hover{background:linear-gradient(135deg,#9A72E0,#6B3899);}
+  .buy-hint{font-size:13px;color:var(--chalk-faint);margin:0 0 14px;}
+  .buy-sitelink{
+    display:inline-block;margin-top:36px;background:none;border:none;cursor:pointer;
+    font-family:var(--font-mono);font-size:12.5px;color:var(--chalk-faint);
+    text-decoration:underline;text-underline-offset:3px;
+  }
+  .buy-sitelink:hover{color:var(--gold);}
+
+  .legal-wrap{max-width:760px;margin:0 auto;text-align:left;}
+  .legal-block{margin-bottom:44px;padding-top:8px;}
+  .legal-block h3{font-family:var(--font-display);font-weight:700;font-size:24px;text-transform:uppercase;letter-spacing:-0.01em;color:var(--chalk);margin:0 0 14px;}
+  .legal-block h4{font-family:var(--font-display);font-weight:600;font-size:15px;text-transform:uppercase;letter-spacing:.01em;color:var(--gold);margin:22px 0 8px;}
+  .legal-block p{font-size:14.5px;line-height:1.7;color:var(--chalk-dim);margin:0 0 12px;}
+  .legal-block ul{margin:0 0 12px;padding-left:20px;}
+  .legal-block li{font-size:14.5px;line-height:1.7;color:var(--chalk-dim);margin-bottom:6px;}
+  .legal-updated{font-family:var(--font-mono);font-size:11.5px;color:var(--chalk-faint);letter-spacing:.05em;text-transform:uppercase;margin-bottom:36px;}
+  .legal-jump{display:flex;gap:18px;margin-bottom:36px;flex-wrap:wrap;}
+  .legal-jump a{font-size:13px;font-weight:600;color:var(--chalk-dim);border-bottom:1px solid var(--line-strong);padding-bottom:2px;}
+  .legal-jump a:hover{color:var(--gold);border-color:var(--gold);}
+
+  .roadmap-phase{
+    background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+    padding:20px 22px;margin-bottom:18px;
+  }
+  .roadmap-head{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:10px;}
+  .roadmap-head h4{margin:0;}
+  .roadmap-tag{
+    font-family:var(--font-mono);font-size:10.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+    color:var(--gold);background:var(--green-deep);border:1px solid var(--line-strong);
+    padding:4px 10px;border-radius:999px;white-space:nowrap;
+  }
+  .roadmap-phase ul{margin:0;padding-left:20px;}
+  .roadmap-phase li{font-size:14px;line-height:1.6;color:var(--chalk-dim);margin-bottom:5px;}
+
+  .progress-bar{
+    height:8px;background:var(--surface-2);border-radius:999px;overflow:hidden;
+    margin:14px 0 8px;border:1px solid var(--line);
+  }
+  .progress-fill{
+    height:100%;border-radius:999px;
+    background:linear-gradient(90deg, var(--green-bright), var(--gold));
+  }
+  .progress-label{
+    font-family:var(--font-mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;
+    color:var(--chalk-faint);margin:0 0 16px;
+  }
+  .checklist{list-style:none;margin:0;padding:0;}
+  .checklist li{
+    display:flex;align-items:center;gap:10px;font-size:14px;line-height:1.5;
+    padding:6px 0;margin-bottom:0;
+  }
+  .checklist li.done{color:var(--chalk);}
+  .checklist li.current{color:var(--gold);font-weight:600;}
+  .checklist li.upcoming{color:var(--chalk-faint);}
+  .checklist .check{
+    flex:none;width:18px;height:18px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    font-size:11px;line-height:1;
+    border:1.5px solid var(--line-strong);
+  }
+  .checklist li.done .check{background:var(--green-bright);border-color:var(--green-bright);color:#06200F;}
+  .checklist li.current .check{border-color:var(--gold);}
+  .checklist li.current .check.dot::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--gold);animation:pulse 1.6s ease-in-out infinite;}
+  .checklist li.upcoming .check{opacity:.5;}
+
+  .roadmap-cta{
+    margin-top:18px;padding-top:16px;border-top:1px dashed var(--line);
+  }
+  .roadmap-cta p{font-size:13.5px;color:var(--chalk-dim);margin:0 0 12px;}
+  .roadmap-cta .btn{width:100%;}
+
+
+  .about-wrap{max-width:760px;margin:0 auto;}
+  .about-wrap p{font-size:17px;color:var(--chalk-dim);margin:0 0 18px;}
+  .about-wrap strong{color:var(--gold);}
+
+  /* =========================== COMMUNITY =========================== */
+  .community-text{max-width:520px;margin:14px auto 36px;color:var(--chalk-dim);font-size:16px;}
+  .social-grid{display:flex;justify-content:center;gap:18px;flex-wrap:wrap;}
+  .social-card{
+    display:flex;align-items:center;gap:12px;
+    background:var(--surface);border:1px solid var(--line);
+    border-radius:999px;padding:13px 24px;
+    transition:border-color .15s, transform .15s;
+    font-weight:600;
+  }
+  .social-card:hover{border-color:var(--gold);transform:translateY(-2px);}
+  .social-card svg{color:var(--gold);}
+
+  /* =========================== STATS =========================== */
+  .stats-band{
+    background:linear-gradient(90deg, var(--green-deep), var(--surface) 40%, var(--surface) 60%, var(--red-deep));
+    border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+    padding:46px 0;
+  }
+  .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;text-align:center;}
+  .stat-label{display:block;font-family:var(--font-mono);font-size:11.5px;color:var(--chalk-faint);letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px;}
+  .stat-value{font-family:var(--font-display);font-weight:700;font-size:24px;letter-spacing:-0.005em;color:var(--chalk);}
+
+  /* =========================== NEWS =========================== */
+  .news-sub{color:var(--chalk-dim);max-width:480px;margin:14px auto 44px;}
+  .news-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:22px;}
+  .news-card{
+    background:var(--surface);border:1px solid var(--line);
+    border-radius:var(--radius);padding:24px;
+    transition:border-color .15s, transform .15s;
+  }
+  .news-card:hover{border-color:var(--line-strong);transform:translateY(-3px);}
+  .news-source{font-family:var(--font-mono);font-size:11.5px;color:var(--gold);letter-spacing:.08em;text-transform:uppercase;}
+  .news-headline{font-family:var(--font-display);font-weight:600;font-size:19px;text-transform:uppercase;letter-spacing:-0.005em;margin:10px 0 8px;line-height:1.25;}
+  .news-summary{font-size:14px;color:var(--chalk-dim);margin:0 0 14px;}
+  .news-read{font-size:13px;font-weight:700;color:var(--chalk);display:inline-flex;align-items:center;gap:6px;}
+  .news-card:hover .news-read{color:var(--gold);}
+
+  /* =========================== FOOTER =========================== */
+  .footer{padding:60px 0 36px;border-top:1px solid var(--line);text-align:center;}
+  .footer-brand{font-family:var(--font-display);font-weight:700;font-size:22px;margin-bottom:14px;}
+  .footer-text{font-size:13px;color:var(--chalk-faint);max-width:640px;margin:0 auto 18px;}
+  .footer-copy{font-size:12.5px;color:var(--chalk-faint);margin:0 0 18px;}
+  .footer-links{display:flex;gap:20px;flex-wrap:wrap;justify-content:center;}
+  .footer-links a{font-size:13px;color:var(--chalk-dim);}
+  .footer-links a:hover{color:var(--gold);}
+
+  /* =========================== REVEAL =========================== */
+  .reveal{opacity:0;transform:translateY(18px);transition:opacity .6s ease, transform .6s ease;}
+  .reveal.in{opacity:1;transform:translateY(0);}
+
+  /* =========================== RESPONSIVE =========================== */
+  @media (max-width:920px){
+    .booking-grid{grid-template-columns:1fr;gap:36px;}
+    .ticket-card{margin-left:auto;margin-right:auto;}
+    .stats-grid{grid-template-columns:repeat(2,1fr);gap:30px;}
+    .news-grid{grid-template-columns:1fr;}
+  }
+  @media (max-width:760px){
+    .nav-links{display:none;}
+    .nav-socials{display:none;}
+    .nav-textlinks{display:none;}
+    .hamburger{display:flex;}
+  }
+  @media (max-width:420px){
+    .nav-inner{padding:10px 16px;}
+    .brand{font-size:22px;}
+    .nav-buy{padding:7px 13px;font-size:13px;}
+  }
+  @media (max-width:480px){
+    .ticket-cells{grid-template-columns:1fr;}
+    .ticket-cells .ticket-row{border-right:none;border-bottom:1px dashed var(--line);padding-bottom:12px;}
+    .ticket-cells .ticket-row:last-child{padding-left:0;border-bottom:none;}
+  }
+</style>
+</head>
+<body>
+
+<div class="pitch-texture" aria-hidden="true"></div>
+
+<!-- NAV -->
+<header class="navbar">
+  <div class="nav-inner">
+    <div class="nav-left">
+      <a href="#top" class="brand">$GOAT<span class="dot">.</span></a>
+      <div class="nav-socials">
+        <a href="#" class="icon-btn" aria-label="Telegram" title="Telegram (placeholder)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/></svg>
+        </a>
+        <a href="#" class="icon-btn" aria-label="TikTok" title="TikTok (placeholder)">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.27 6.27 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.34-6.34V8.75a8.18 8.18 0 004.76 1.52V6.84a4.84 4.84 0 01-1-.15z"/></svg>
+        </a>
+      </div>
+      <nav class="nav-links" aria-label="Section links">
+        <a href="#about">About</a>
+        <a href="#gallery">Gallery</a>
+        <a href="#matchday">Match Day</a>
+        <a href="#community">Community</a>
+      </nav>
+    </div>
+    <div class="nav-right">
+      <div class="nav-textlinks">
+        <a href="#whitepaper">Whitepaper</a>
+        <a href="#roadmap">Roadmap</a>
+      </div>
+      <a href="#matchday" class="btn btn-primary nav-buy">Buy $GOAT</a>
+    </div>
+    <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+    </button>
+  </div>
+</header>
+
+<!-- RIBBON -->
+<div class="ribbon" aria-hidden="true">
+  <div class="ribbon-track" id="ribbonTrack"></div>
+</div>
+
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <img class="hero-video" src="https://i.imgur.com/20gRvHO.gif" alt="" aria-hidden="true">
+  <div class="hero-video-overlay" aria-hidden="true"></div>
+  <svg class="hero-floodlights" viewBox="0 0 1200 600" preserveAspectRatio="none" aria-hidden="true">
+    <defs>
+      <radialGradient id="beam1" cx="50%" cy="0%" r="75%">
+        <stop offset="0%" stop-color="#F2C230" stop-opacity="0.16"/>
+        <stop offset="100%" stop-color="#F2C230" stop-opacity="0"/>
+      </radialGradient>
+    </defs>
+    <ellipse cx="120" cy="0" rx="380" ry="260" fill="url(#beam1)"/>
+    <ellipse cx="1080" cy="0" rx="380" ry="260" fill="url(#beam1)"/>
+    <g stroke="rgba(246,244,236,0.06)" stroke-width="1.5" fill="none">
+      <line x1="600" y1="0" x2="600" y2="600"/>
+      <circle cx="600" cy="600" r="120"/>
+      <rect x="450" y="430" width="300" height="170"/>
+    </g>
+  </svg>
+
+  <div class="container">
+    <div class="hero-center reveal">
+      <span class="badge"><span class="pulse-dot"></span> SOLANA MEMECOIN</span>
+      <h1>SIUUU<br>SEASON<br><span class="line2">IS HERE</span></h1>
+      <p class="hero-sub">Join the GOAT squad.</p>
+      <div class="hero-actions">
+        <a href="#matchday" class="btn btn-primary btn-lg">Buy $GOAT</a>
+      </div>
+      <a href="#about" class="learn-more-link">Learn More</a>
+      <div class="ca-chip" id="caChip" role="button" tabindex="0" title="Click to copy contract address">
+        <span><strong>CA</strong></span>
+        <span class="ca-val" id="caValue">PLACEHOLDER111111111111111111111111111111</span>
+        <span class="copy-ico">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+        </span>
+      </div>
+    </div>
+
+    <div class="hero-scoreboard-row reveal">
+      <div class="scoreboard">
+        <div class="scoreboard-teams">
+          <div class="team goat">
+            <span class="team-name">$GOAT</span>
+            <div class="score">1</div>
+          </div>
+          <div class="score-sep">—</div>
+          <div class="team">
+            <span class="team-name">Paper Hands</span>
+            <div class="score">0</div>
+          </div>
+        </div>
+        <div class="scoreboard-clock">
+          <span class="clock-label">Time on the clock</span>
+          <span class="clock-time" id="matchClock">00:00</span>
+        </div>
+      </div>
+      <p class="hero-side-note">Liquidity locked. Contract renounced. Full ninety minutes, no added time for rugs.</p>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section class="section section-alt" id="gallery">
+  <div class="container-wide">
+    <div class="center gallery-head reveal">
+      <p class="eyebrow">// Group K Campaign</p>
+      <h2 class="section-title">Portugal’s road through <span class="accent">the group stage</span></h2>
+    </div>
+
+    <div class="gallery-wrap reveal">
+      <div class="gallery-track" id="galleryTrack">
+        <!-- cards generated via JS for brevity/consistency -->
+      </div>
+      <div class="gal-arrows">
+        <button class="gal-arrow" id="galPrev" aria-label="Previous">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+        </button>
+        <button class="gal-arrow" id="galNext" aria-label="Next">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MATCH DAY -->
+<section class="section" id="matchday">
+  <div class="container">
+    <div class="booking-grid">
+      <div class="reveal">
+        <p class="eyebrow">// Match Day</p>
+        <h2 class="section-title">Secure your seat for <span class="accent">$GOAT</span></h2>
+        <p class="lead">The squad is forming. The stadium is filling up. Join before kickoff and ride with the GOAT community.</p>
+        <p class="booking-fine">This match ticket is themed interface copy only. Clicking "Buy $GOAT" opens a third-party page to purchase the $GOAT token on Solana. It does not provide access to a real-world event, ticket, or travel booking.</p>
+      </div>
+
+      <div class="reveal">
+        <div class="ticket-card">
+          <div class="ticket-perf" aria-hidden="true"></div>
+          <div class="ticket-top">
+            <span class="ticket-admit">Admit One</span>
+            <span class="ticket-edition">World Cup Edition</span>
+          </div>
+          <h3 class="ticket-match">$GOAT <span class="vs">vs</span> THE MARKET</h3>
+
+          <div class="ticket-cells">
+            <div class="ticket-row">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 7l4 3-1.5 4.5h-5L8 10z"/></svg>
+              <div><span class="lbl">Section</span><span class="val">GOAT ARMY</span></div>
+            </div>
+            <div class="ticket-row">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 19v-6a3 3 0 013-3h8a3 3 0 013 3v6M5 19h14M7 19v2M17 19v2"/></svg>
+              <div><span class="lbl">Row</span><span class="val">SIUUU</span></div>
+            </div>
+          </div>
+          <div class="ticket-divider"></div>
+          <div class="ticket-cells">
+            <div class="ticket-row">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 4v16M19 4v16M5 9h2M5 15h2M17 9h2M17 15h2"/></svg>
+              <div><span class="lbl">Gate</span><span class="val">7</span></div>
+            </div>
+            <div class="ticket-row">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l4 2"/></svg>
+              <div><span class="lbl">Kickoff</span><span class="val">LIVE NOW</span></div>
+            </div>
+          </div>
+          <div class="ticket-divider"></div>
+          <div class="ticket-row full">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M7 4h10v4a5 5 0 01-10 0z"/><path d="M7 5H4a1 1 0 00-1 1c0 2 1.5 3.5 4 3.8M17 5h3a1 1 0 011 1c0 2-1.5 3.5-4 3.8"/><path d="M12 14v3M9 20h6M10 17h4v3h-4z"/></svg>
+              <div><span class="lbl">Supply</span><span class="val">LIMITED</span></div>
+          </div>
+
+          <div class="perk-strip">SIUUU seats filling fast!</div>
+          <button class="btn-book" id="buyBtn">Buy $GOAT</button>
+
+          <div class="ticket-stub">
+            <svg class="ticket-qr" viewBox="0 0 60 60" aria-hidden="true">
+              <rect width="60" height="60" fill="none"/>
+              <rect x="2" y="2" width="14" height="14" fill="#F6F4EC"/><rect x="6" y="6" width="6" height="6" fill="#0C1B12"/>
+              <rect x="44" y="2" width="14" height="14" fill="#F6F4EC"/><rect x="48" y="6" width="6" height="6" fill="#0C1B12"/>
+              <rect x="2" y="44" width="14" height="14" fill="#F6F4EC"/><rect x="6" y="48" width="6" height="6" fill="#0C1B12"/>
+              <rect x="20" y="2" width="4" height="4" fill="#F6F4EC"/><rect x="28" y="2" width="4" height="4" fill="#F6F4EC"/><rect x="20" y="10" width="4" height="4" fill="#F6F4EC"/>
+              <rect x="34" y="20" width="4" height="4" fill="#F6F4EC"/><rect x="42" y="24" width="4" height="4" fill="#F6F4EC"/><rect x="22" y="24" width="4" height="4" fill="#F6F4EC"/>
+              <rect x="20" y="32" width="4" height="4" fill="#F6F4EC"/><rect x="28" y="36" width="4" height="4" fill="#F6F4EC"/><rect x="36" y="40" width="4" height="4" fill="#F6F4EC"/>
+              <rect x="44" y="34" width="4" height="4" fill="#F6F4EC"/><rect x="50" y="44" width="4" height="4" fill="#F6F4EC"/><rect x="44" y="50" width="4" height="4" fill="#F6F4EC"/>
+              <rect x="22" y="44" width="4" height="4" fill="#F6F4EC"/><rect x="30" y="48" width="4" height="4" fill="#F6F4EC"/><rect x="36" y="52" width="4" height="4" fill="#F6F4EC"/>
+            </svg>
+            <div class="ticket-barcode" aria-hidden="true">
+              <span style="width:2px"></span><span style="width:1px"></span><span style="width:3px"></span><span style="width:1px"></span><span style="width:2px"></span><span style="width:1px"></span><span style="width:4px"></span><span style="width:1px"></span><span style="width:2px"></span><span style="width:2px"></span><span style="width:1px"></span><span style="width:3px"></span><span style="width:1px"></span><span style="width:1px"></span><span style="width:2px"></span><span style="width:3px"></span>
+            </div>
+            <div class="ticket-micro">
+              <span>SOLANA MEMECOIN</span>
+              <span>WORLD CUP EDITION</span>
+              <span>NOT A REAL EVENT TICKET</span>
+            </div>
+          </div>
+
+          <p class="ticket-tos">By continuing you agree this is a token purchase, not a ticket — see <a href="#terms">Terms</a>.</p>
+        </div>
+
+        <div class="hype-banner">
+          <svg class="hype-flag" viewBox="0 0 60 40" aria-hidden="true"><rect width="60" height="40" fill="#D11C2E"/><rect width="24" height="40" fill="#0E6B3A"/><circle cx="24" cy="20" r="7.5" fill="#F2C230" stroke="#F6F4EC" stroke-width="1"/></svg>
+          <div class="hype-text">
+            <span class="hype-label">Semi-Finals Loading&hellip;</span>
+            <p>If Portugal makes it, the whole world is going to be screaming SIUUU.</p>
+            <p class="hype-sub">$GOAT is built for that moment.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="section section-alt" id="about">
+  <div class="container center">
+    <p class="eyebrow">// About</p>
+    <h2 class="section-title">What is <span class="accent">$GOAT</span>?</h2>
+    <div class="about-wrap" style="text-align:left;margin-top:32px;">
+      <p>Siuuu season is here.</p>
+      <p><strong>$GOAT</strong> is the memecoin for the fans who know there's only one real legend. Five Ballon d'Ors, endless clutch moments, and a mentality built different.</p>
+      <p>This isn't for benchwarmers. This is for the ones who believe in late-game winners, impossible comebacks, and screaming SIUUU while the chart goes vertical.</p>
+      <p>The squad is forming. The stadium is packed. The candles are warming up.</p>
+      <p>Built on Solana. Liquidity locked.</p>
+      <p>Secure your bag before kickoff, because once $GOAT starts running, the whole timeline is going to hear the SIUUU.</p>
+    </div>
+  </div>
+</section>
+
+<!-- COMMUNITY -->
+<section class="section" id="community">
+  <div class="container center">
+    <p class="eyebrow">// Squad</p>
+    <h2 class="section-title">Join the <span class="accent">squad</span></h2>
+    <p class="community-text">No transfer windows. No bench. Just supporters who turned up before kickoff and never left their seats.</p>
+    <div class="social-grid">
+      <a href="#" class="social-card">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/></svg>
+        <span>Telegram</span>
+      </a>
+      <a href="#" class="social-card">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.27 6.27 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.34-6.34V8.75a8.18 8.18 0 004.76 1.52V6.84a4.84 4.84 0 01-1-.15z"/></svg>
+        <span>TikTok</span>
+      </a>
+      <a href="#" class="social-card">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        <span>X / Twitter</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<section class="stats-band">
+  <div class="container-wide">
+    <div class="stats-grid">
+      <div class="reveal"><span class="stat-label">Blockchain</span><span class="stat-value">Solana</span></div>
+      <div class="reveal"><span class="stat-label">Liquidity</span><span class="stat-value">Locked</span></div>
+      <div class="reveal"><span class="stat-label">Contract</span><span class="stat-value">Renounced</span></div>
+      <div class="reveal"><span class="stat-label">Total Supply</span><span class="stat-value">1,000,000,000</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- LEGAL (full-screen overlay, hidden until opened) -->
+<div class="legal-overlay" id="legalOverlay">
+  <div class="container">
+    <div class="legal-wrap">
+      <button class="legal-back" id="legalBack" aria-label="Back to site">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        Back to site
+      </button>
+      <p class="eyebrow">// Legal</p>
+      <h2 class="section-title" style="margin-bottom:18px;">Terms, Disclaimer <span class="accent">&amp; Privacy</span></h2>
+      <p class="legal-updated">Last updated June 2026 &middot; Applies to the $GOAT website</p>
+      <div class="legal-jump">
+        <a href="#terms" data-legal-tab="terms">Terms &amp; Conditions</a>
+        <a href="#disclaimer" data-legal-tab="disclaimer">Disclaimer</a>
+        <a href="#privacy" data-legal-tab="privacy">Privacy Policy</a>
+      </div>
+
+      <div class="legal-block" id="terms">
+        <h3>Terms &amp; Conditions</h3>
+        <p>By using this website or interacting with the $GOAT token, you accept the terms below. If you don't agree with them, please don't use the site or acquire the token.</p>
+
+        <h4>1. What $GOAT is</h4>
+        <p>$GOAT is a meme token on the Solana blockchain, created for entertainment and community participation around World Cup season. It is not equity, a profit share, a claim on any treasury, or a right to receive goods or services from anyone involved in the project. It may carry no lasting value, and you should be prepared for it to become illiquid or worthless at any time.</p>
+
+        <h4>2. The stadium theming is fictional</h4>
+        <p>References on this site to seats, sections, gates, kickoff times, match tickets, or admission are creative branding only. No real-world stadium access, event admission, or travel is sold, booked, or implied through this website.</p>
+
+        <h4>3. Not advice, not a solicitation</h4>
+        <p>Nothing here is financial, legal, tax, or investment advice, and nothing constitutes a recommendation to buy, sell, or hold any asset. Make your own decisions and consult a qualified professional if you need one.</p>
+
+        <h4>4. Eligibility</h4>
+        <p>You must meet the legal age of majority in your jurisdiction to use this site in connection with the token, and you're responsible for confirming that doing so is lawful where you live.</p>
+
+        <h4>5. Your responsibility</h4>
+        <p>You're responsible for your own wallet, seed phrase, and private keys. Blockchain transactions generally can't be reversed. We aren't responsible for losses caused by phishing, mistyped addresses, compromised devices, or failures of third-party platforms you choose to use.</p>
+
+        <h4>6. Risk disclosure</h4>
+        <ul>
+          <li>Crypto assets are volatile and speculative by nature.</li>
+          <li>$GOAT may lose all value or have no active market at any point.</li>
+          <li>Smart contracts and third-party platforms can fail or be exploited.</li>
+          <li>Regulatory treatment of tokens can change without notice.</li>
+          <li>Site copy may include humor, hype, or forward-looking language that should not be read as a promise.</li>
+        </ul>
+
+        <h4>7. Third-party links</h4>
+        <p>Links to token-purchase pages, social platforms, or other outside services are governed by those services' own terms. We don't control them and aren't responsible for their content or practices.</p>
+
+        <h4>8. Acceptable use</h4>
+        <p>Don't use this site in a way that's unlawful, deceptive, or intended to disrupt it for other visitors. Branding and content here are provided for informational and promotional purposes tied to the project.</p>
+
+        <h4>9. No warranties, limited liability</h4>
+        <p>This site is provided "as is," without warranties of any kind. To the extent permitted by law, nobody involved in publishing this site is liable for indirect, incidental, or consequential damages, including loss of funds, arising from your use of the site or the token.</p>
+
+        <h4>10. Changes</h4>
+        <p>This page may be updated from time to time. Continued use of the site after a change means you accept the updated terms.</p>
+      </div>
+
+      <div class="legal-block" id="disclaimer">
+        <h3>Disclaimer</h3>
+        <p>This project exists for entertainment and community purposes — please read everything else on the site with that in mind.</p>
+
+        <h4>Meme project, not a roadmap promise</h4>
+        <p>Any mention of future plans, features, or community initiatives is descriptive only. Plans like this can change, slip, or never happen, and nothing here should be read as a guarantee.</p>
+
+        <h4>No affiliation</h4>
+        <p>$GOAT is not affiliated with, endorsed by, or sponsored by FIFA, any football association, league, federation, national team, or any real player. Thematic references to World Cup season are fan-inspired branding, not a claim of any real-world connection or endorsement.</p>
+
+        <h4>Information quality</h4>
+        <p>We try to keep this page accurate, but we don't guarantee it's complete or error-free. Stats, scorelines, and projections elsewhere on the site reflect publicly available information at the time of writing and can change.</p>
+      </div>
+
+      <div class="legal-block" id="privacy">
+        <h3>Privacy Policy</h3>
+        <p>This site is a self-contained front-end page with no server-side backend, no account system, and no database — so there's very little to disclose here.</p>
+
+        <h4>What we collect</h4>
+        <p>Nothing, by default. This page doesn't run analytics scripts, advertising pixels, or third-party trackers, and it doesn't ask you to create an account or submit personal information.</p>
+
+        <h4>Cookies &amp; local storage</h4>
+        <p>Any local browser storage used by interactive elements on this page (like remembering a UI preference) stays in your own browser and isn't transmitted anywhere or shared with us.</p>
+
+        <h4>Third-party services</h4>
+        <p>If you follow a link off this site — to a token-swap page, a social platform, or anywhere else — that destination has its own privacy practices. Review them separately before sharing any information.</p>
+
+        <h4>Changes</h4>
+        <p>If this policy is ever updated, the version published here is the current one.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer" id="footer-terms">
+  <div class="container">
+    <div class="footer-brand">$GOAT</div>
+    <p class="footer-text">$GOAT is a speculative meme token. The tournament, ticket, and seating language on this site is fictional branding only — any purchase flow leads to a token swap, not a real ticket, seat, or event admission. Not affiliated with, endorsed by, or sponsored by FIFA, any football association, league, federation, or national team. Nothing on this site is financial advice.</p>
+    <p class="footer-copy">© 2026 $GOAT. All rights reserved.</p>
+    <nav class="footer-links" aria-label="Legal">
+      <a href="#terms">Terms &amp; Conditions</a>
+      <a href="#disclaimer">Disclaimer</a>
+      <a href="#privacy">Privacy Policy</a>
+      <a href="#whitepaper">Whitepaper</a>
+      <a href="#roadmap">Roadmap</a>
+    </nav>
+  </div>
+</footer>
+
+<!-- BUY $GOAT OVERLAY -->
+<div class="buy-overlay" id="buyOverlay">
+  <div class="container">
+    <div class="buy-wrap">
+      <button class="legal-back buy-back-top" id="buyBackTop" aria-label="Back to site">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        Back to site
+      </button>
+
+      <div class="buy-step" id="buyStep1">
+        <h2 class="buy-title">Buy $GOAT</h2>
+        <p class="buy-desc">$GOAT is a Solana memecoin riding World Cup season. Kickoff's already underway — grab your seat before the final whistle.</p>
+        <a href="#" id="buyNowLink1" target="_blank" rel="noopener noreferrer" class="buy-btn buy-btn-green">Buy $GOAT Now</a>
+        <button class="buy-btn buy-btn-dark" id="needWalletBtn">I need a wallet first</button>
+      </div>
+
+      <div class="buy-step" id="buyStep2" hidden>
+        <h2 class="buy-title">Buy $GOAT</h2>
+        <p class="buy-desc">$GOAT is a Solana memecoin riding World Cup season. Kickoff's already underway — grab your seat before the final whistle.</p>
+        <a href="https://phantom.app/download" target="_blank" rel="noopener noreferrer" class="buy-btn buy-btn-purple">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M12 3C8.5 3 6 5.8 6 9.5V18l2-1.6L10 18l2-1.6L14 18l2-1.6L18 18V9.5C18 5.8 15.5 3 12 3Z" fill="#FFFFFF"/>
+            <ellipse cx="9.6" cy="10.2" rx="1.1" ry="1.4" fill="#5B2A86"/>
+            <ellipse cx="14.4" cy="10.2" rx="1.1" ry="1.4" fill="#5B2A86"/>
+          </svg>
+          Download Phantom
+        </a>
+        <p class="buy-hint">After installing, come back here and tap:</p>
+        <a href="#" id="buyNowLink2" target="_blank" rel="noopener noreferrer" class="buy-btn buy-btn-green">Buy $GOAT Now</a>
+        <button class="buy-btn buy-btn-dark" id="buyBackToStep1">&larr; Back</button>
+      </div>
+
+      <button class="buy-sitelink" id="buyCloseLink">&larr; Go Back</button>
+    </div>
+  </div>
+</div>
+
+<!-- WHITEPAPER & ROADMAP -->
+<div class="legal-overlay" id="infoOverlay">
+  <div class="container">
+    <div class="legal-wrap">
+      <button class="legal-back" id="infoBack" aria-label="Back to site">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        Back to site
+      </button>
+      <p class="eyebrow">// Info</p>
+      <h2 class="section-title" style="margin-bottom:18px;">Whitepaper <span class="accent">&amp; Roadmap</span></h2>
+      <p class="legal-updated">Version 1.0 &middot; Updated June 2026</p>
+      <div class="legal-jump">
+        <a href="#whitepaper" data-legal-tab="whitepaper">Whitepaper</a>
+        <a href="#roadmap" data-legal-tab="roadmap">Roadmap</a>
+      </div>
+
+      <div class="legal-block" id="whitepaper">
+        <h3>Whitepaper</h3>
+        <p>$GOAT is a Solana memecoin built around the one feeling every football fan recognizes: the second before something unforgettable happens. This document lays out what $GOAT is, how it's structured, and what to watch out for — written plainly, no jargon required.</p>
+
+        <h4>01. Kickoff</h4>
+        <p>Every World Cup produces a handful of moments that everyone remembers — the wonder strike, the injury-time winner, the celebration that gets replayed for years. $GOAT exists to give that energy a place to live on-chain: a token for the fans who show up early, stay loud, and believe the next moment is coming.</p>
+
+        <h4>02. The Pitch</h4>
+        <p>Football is the most-watched sport on the planet, and crypto has always gravitated toward whatever the internet is already talking about. $GOAT sits at that overlap on purpose — riding World Cup season rather than inventing a reason to exist. No platform, no app, no roadmap item is required for the idea to make sense: it's a token for a moment people are already living through.</p>
+
+        <h4>03. How $GOAT Plays</h4>
+        <p>Three things define what $GOAT is for:</p>
+        <ul>
+          <li><strong>The Squad Pass</strong> — holding $GOAT is your way into the community: Telegram, X, and whatever channel the squad is loudest in that week.</li>
+          <li><strong>Match Currency</strong> — $GOAT is the unit the community uses for tips, community contests, and match-day shoutouts.</li>
+          <li><strong>The Locker Room</strong> — light, informal community polls (what to post, what to meme, which match to spotlight). Not formal governance, and not a promise of control over the project's direction.</li>
+        </ul>
+
+        <h4>04. The Lineup (Tokenomics)</h4>
+        <p>Total supply: <strong>1,000,000,000 $GOAT</strong>.</p>
+        <ul>
+          <li><strong>85% — Starting XI:</strong> liquidity, locked at launch.</li>
+          <li><strong>5% — Man of the Match:</strong> community rewards, contests, and giveaways.</li>
+          <li><strong>5% — Training Ground:</strong> ongoing development and site costs.</li>
+          <li><strong>3% — Away Days:</strong> marketing, partnerships, and exchange outreach.</li>
+          <li><strong>2% — The Bench:</strong> team allocation, vested over 12 months with a 3-month cliff.</li>
+        </ul>
+
+        <h4>05. The Transfer Market</h4>
+        <p>$GOAT trades on Solana decentralized exchanges. There's no hidden buy/sell tax baked into the contract — what you see in your wallet is what you hold. Liquidity depth depends on community trading activity, which means price can move fast in either direction.</p>
+
+        <h4>06. Under the Hood</h4>
+        <ul>
+          <li><strong>Blockchain:</strong> Solana</li>
+          <li><strong>Standard:</strong> SPL Token</li>
+          <li><strong>Liquidity:</strong> Locked</li>
+          <li><strong>Contract:</strong> Renounced</li>
+        </ul>
+
+        <h4>07. Extra Time (Risk Factors)</h4>
+        <ul>
+          <li>$GOAT is a speculative meme token and may lose all or substantially all of its value.</li>
+          <li>There's no guaranteed roadmap outcome — plans can slip, change, or not happen at all.</li>
+          <li>Liquidity may be thin enough that large trades move the price significantly.</li>
+          <li>Regulatory treatment of meme tokens can change without notice.</li>
+          <li>Smart contracts carry inherent technical risk, even when simple and renounced.</li>
+        </ul>
+
+        <h4>08. Disclaimer</h4>
+        <p>This whitepaper is provided for informational and entertainment purposes and doesn't create any contractual right, guarantee, or promise of future utility. Please review the full <a href="#terms" style="color:var(--gold);text-decoration:underline;">Terms, Disclaimer, and Privacy Policy</a> before relying on anything here.</p>
+      </div>
+
+      <div class="legal-block" id="roadmap">
+        <h3>Roadmap</h3>
+        <p>Standard meme-coin disclaimer applies: timelines are a plan, not a promise. Here's what the squad is working toward — and where things stand right now.</p>
+
+        <div class="roadmap-phase">
+          <div class="roadmap-head"><h4>Phase 1 &middot; Kickoff</h4><span class="roadmap-tag">Q2 2026 &middot; In Progress</span></div>
+
+          <div class="progress-bar"><div class="progress-fill" style="width:71%"></div></div>
+          <p class="progress-label">5 of 7 milestones complete</p>
+
+          <ul class="checklist">
+            <li class="done"><span class="check">&#10003;</span>Brand and website launch</li>
+            <li class="done"><span class="check">&#10003;</span>Telegram and X community channels live</li>
+            <li class="done"><span class="check">&#10003;</span>Token launch on Solana</li>
+            <li class="done"><span class="check">&#10003;</span>Liquidity locked</li>
+            <li class="done"><span class="check">&#10003;</span>Contract renounced</li>
+            <li class="current"><span class="check dot"></span>Group K match-day content rollout</li>
+            <li class="upcoming"><span class="check"></span>5,000+ community members</li>
+          </ul>
+
+          <div class="roadmap-cta">
+            <p>The foundation's locked in — liquidity locked, contract renounced, live on Solana. The next milestone is already in motion.</p>
+            <a href="#matchday" class="btn btn-primary" style="justify-content:center;">Buy $GOAT</a>
+          </div>
+        </div>
+
+        <div class="roadmap-phase">
+          <div class="roadmap-head"><h4>Phase 2 &middot; First Half</h4><span class="roadmap-tag">Q3 2026 &middot; Planned</span></div>
+          <ul>
+            <li>Expanded DEX aggregator listings</li>
+            <li>Knockout-stage community contests</li>
+            <li>First merch / fan-art collab drop</li>
+            <li>Community and creator partnerships</li>
+            <li>25,000+ holder milestone</li>
+          </ul>
+        </div>
+
+        <div class="roadmap-phase">
+          <div class="roadmap-head"><h4>Phase 3 &middot; Second Half</h4><span class="roadmap-tag">Q4 2026 &middot; Planned</span></div>
+          <ul>
+            <li>Push for additional exchange listings</li>
+            <li>Lightweight community polls on project direction</li>
+            <li>Cross-promotion with other fan-driven Solana projects</li>
+            <li>Marketing push tied to the next major football calendar moment</li>
+          </ul>
+        </div>
+
+        <div class="roadmap-phase">
+          <div class="roadmap-head"><h4>Phase 4 &middot; Extra Time</h4><span class="roadmap-tag">2027 &middot; Planned</span></div>
+          <ul>
+            <li>Long-term community treasury initiatives</li>
+            <li>Continued exchange expansion</li>
+            <li>Annual community "Golden Boot" recognition event</li>
+            <li>Community vote on long-term direction</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast">Copied to clipboard</div>
+
+<script>
+  // ---- Ribbon marquee content ----
+  (function(){
+    const track = document.getElementById('ribbonTrack');
+    const phrase = 'BUY $GOAT NOW';
+    let html = '';
+    for(let i=0;i<16;i++){ html += `<span>${phrase}</span>`; }
+    track.innerHTML = html;
+  })();
+
+  // ---- Mobile menu (simple toggle injecting links) ----
+  const hamburger = document.getElementById('hamburger');
+  let mobileOpen = false;
+  let mobileMenuEl = null;
+  hamburger.addEventListener('click', () => {
+    mobileOpen = !mobileOpen;
+    hamburger.setAttribute('aria-expanded', mobileOpen);
+    if(mobileOpen){
+      mobileMenuEl = document.createElement('div');
+      mobileMenuEl.style.position='fixed';
+      mobileMenuEl.style.top=(document.querySelector('.navbar').getBoundingClientRect().bottom)+'px';
+      mobileMenuEl.style.left='0';
+      mobileMenuEl.style.right='0';
+      mobileMenuEl.style.background='rgba(6,18,10,0.98)';
+      mobileMenuEl.style.borderBottom='1px solid var(--line)';
+      mobileMenuEl.style.zIndex='70';
+      mobileMenuEl.style.padding='20px 24px';
+      mobileMenuEl.style.display='flex';
+      mobileMenuEl.style.flexDirection='column';
+      mobileMenuEl.style.gap='16px';
+      mobileMenuEl.innerHTML = `
+        <a href="#about" style="color:#F6F4EC;font-weight:600;">About</a>
+        <a href="#gallery" style="color:#F6F4EC;font-weight:600;">Highlights</a>
+        <a href="#matchday" style="color:#F6F4EC;font-weight:600;">Match Day</a>
+        <a href="#community" style="color:#F6F4EC;font-weight:600;">Squad</a>
+        <a href="#matchday" class="btn btn-primary" style="justify-content:center;">Buy $GOAT</a>
+      `;
+      document.body.appendChild(mobileMenuEl);
+      mobileMenuEl.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+        mobileMenuEl.remove(); mobileOpen=false; hamburger.setAttribute('aria-expanded', false);
+      }));
+    } else if(mobileMenuEl){
+      mobileMenuEl.remove();
+    }
+  });
+
+  // ---- Copy contract address ----
+  const caChip = document.getElementById('caChip');
+  const toast = document.getElementById('toast');
+  function copyCA(){
+    const val = document.getElementById('caValue').textContent.trim();
+    const showToast = () => { toast.classList.add('show'); setTimeout(()=>toast.classList.remove('show'), 1600); };
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(val).then(showToast).catch(showToast);
+    } else {
+      const ta = document.createElement('textarea');
+      ta.value = val; document.body.appendChild(ta); ta.select();
+      try{ document.execCommand('copy'); }catch(e){}
+      ta.remove(); showToast();
+    }
+  }
+  caChip.addEventListener('click', copyCA);
+  caChip.addEventListener('keypress', (e)=>{ if(e.key==='Enter') copyCA(); });
+
+  // ---- Live match clock (mm:ss ticking up since page load) ----
+  (function(){
+    const el = document.getElementById('matchClock');
+    let seconds = 0;
+    setInterval(() => {
+      seconds++;
+      const m = String(Math.floor(seconds/60)).padStart(2,'0');
+      const s = String(seconds%60).padStart(2,'0');
+      el.textContent = `${m}:${s}`;
+    }, 1000);
+  })();
+
+  // ---- Gallery: build cards with real flag graphics for each match ----
+  (function(){
+    const data = [
+      {tag:'Matchday 1 · Jun 17', title:'Portugal 1–1 Congo DR', desc:'Early Portugal lead, levelled before half-time.', c1:'#0E6B3A', c2:'#073D21', flags:['pt','cd']},
+      {tag:'Matchday 2 · Jun 23', title:'Portugal 5–0 Uzbekistan', desc:'66% possession, 16 shots, five goals.', c1:'#D11C2E', c2:'#073D21', flags:['pt','uz']},
+      {tag:'Matchday 3 · Jun 27', title:'Colombia vs Portugal', desc:'Group K\u2019s top two collide. Decider.', c1:'#0E6B3A', c2:'#D11C2E', flags:['co','pt']},
+      {tag:'Group K', title:'2nd Place · 4 Points', desc:'1W 1D, 6 scored, 1 conceded.', c1:'#F2C230', c2:'#0C1B12', flags:['pt']},
+      {tag:'If Portugal top the group', title:'R32 · Kansas City, Jul 3', desc:'Match 87, vs a third-place wildcard.', c1:'#073D21', c2:'#8C1320', flags:['pt']},
+      {tag:'If Portugal finish 2nd', title:'R32 · Toronto, Jul 2', desc:'Match 83, vs the Group L runner-up.', c1:'#0E6B3A', c2:'#073D21', flags:['pt']},
+    ];
+
+    // Simple, factual national-flag graphics (geometric flag designs are not copyrightable works)
+    const flags = {
+      pt: `<rect width="60" height="40" fill="#D11C2E"/><rect width="24" height="40" fill="#0E6B3A"/><circle cx="24" cy="20" r="7.5" fill="#F2C230" stroke="#F6F4EC" stroke-width="1"/>`,
+      cd: `<rect width="60" height="40" fill="#3A75C4"/><rect x="-10" y="14" width="84" height="11" fill="#F7D618" transform="rotate(-26 30 20)"/><rect x="-10" y="17" width="84" height="5" fill="#CE1126" transform="rotate(-26 30 20)"/><polygon points="9,5 10.5,8.5 14,9 11.2,11.3 12,15 9,12.8 6,15 6.8,11.3 4,9 7.5,8.5" fill="#F7D618"/>`,
+      uz: `<rect width="60" height="40" fill="#1EB53A"/><rect y="0" width="60" height="17" fill="#0099B5"/><rect y="17" width="60" height="6" fill="#FFFFFF"/><rect y="16" width="60" height="1.2" fill="#CE1126"/><rect y="22.8" width="60" height="1.2" fill="#CE1126"/><path d="M10 4.5 a4.2 4.2 0 100 7.5 a3.3 3.3 0 110 -7.5" fill="#fff"/><circle cx="17" cy="5" r="0.8" fill="#fff"/><circle cx="19.5" cy="7" r="0.8" fill="#fff"/><circle cx="17" cy="9" r="0.8" fill="#fff"/>`,
+      co: `<rect width="60" height="40" fill="#FCD116"/><rect y="20" width="60" height="10" fill="#003893"/><rect y="30" width="60" height="10" fill="#CE1126"/>`,
+    };
+
+    const flagBox = code => `<svg class="flag-svg" viewBox="0 0 60 40" aria-hidden="true">${flags[code]}</svg>`;
+
+    const track = document.getElementById('galleryTrack');
+    track.innerHTML = data.map(d => `
+      <div class="card-post">
+        <div class="card-post-art" style="background:linear-gradient(135deg, ${d.c1}, ${d.c2});">
+          ${d.flags.length === 2
+            ? `<div class="flag-pair">${flagBox(d.flags[0])}<span class="flag-vs">VS</span>${flagBox(d.flags[1])}</div>`
+            : `<div class="flag-single">${flagBox(d.flags[0])}</div>`}
+        </div>
+        <div class="card-post-cap">
+          <span class="tag">${d.tag}</span>
+          <h4>${d.title}</h4>
+          <p>${d.desc}</p>
+        </div>
+      </div>
+    `).join('');
+
+    const prev = document.getElementById('galPrev');
+    const next = document.getElementById('galNext');
+    prev.addEventListener('click', () => track.scrollBy({left:-300, behavior:'smooth'}));
+    next.addEventListener('click', () => track.scrollBy({left:300, behavior:'smooth'}));
+  })();
+
+  // ---- Shared overlay manager (opening one closes any other) ----
+  const siteOverlays = { closers: [] };
+  function closeAllOverlays(){ siteOverlays.closers.forEach(fn => fn()); }
+
+  // ---- Legal overlay (Terms / Disclaimer / Privacy) ----
+  (function(){
+    const overlay = document.getElementById('legalOverlay');
+    const backBtn = document.getElementById('legalBack');
+
+    function openLegal(targetId){
+      closeAllOverlays();
+      overlay.classList.add('open');
+      document.body.style.overflow = 'hidden';
+      if (targetId) {
+        const el = document.getElementById(targetId);
+        if (el) {
+          requestAnimationFrame(() => {
+            overlay.scrollTop = 0;
+            el.scrollIntoView({block:'start'});
+          });
+        } else {
+          overlay.scrollTop = 0;
+        }
+      } else {
+        overlay.scrollTop = 0;
+      }
+    }
+    function closeLegal(){
+      overlay.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+    siteOverlays.closers.push(closeLegal);
+
+    // Any link anywhere on the page pointing to #terms, #disclaimer, or #privacy opens the overlay instead of jumping
+    document.querySelectorAll('a[href="#terms"], a[href="#disclaimer"], a[href="#privacy"]').forEach(a => {
+      a.addEventListener('click', (e) => {
+        e.preventDefault();
+        openLegal(a.getAttribute('href').slice(1));
+      });
+    });
+
+    // Jump links inside the overlay itself just scroll within it (no page navigation needed)
+    overlay.querySelectorAll('[data-legal-tab]').forEach(a => {
+      a.addEventListener('click', (e) => {
+        e.preventDefault();
+        const el = document.getElementById(a.dataset.legalTab);
+        if (el) el.scrollIntoView({block:'start', behavior:'smooth'});
+      });
+    });
+
+    backBtn.addEventListener('click', closeLegal);
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && overlay.classList.contains('open')) closeLegal();
+    });
+  })();
+
+  // ---- Info overlay (Whitepaper / Roadmap) ----
+  (function(){
+    const overlay = document.getElementById('infoOverlay');
+    const backBtn = document.getElementById('infoBack');
+
+    function openInfo(targetId){
+      closeAllOverlays();
+      overlay.classList.add('open');
+      document.body.style.overflow = 'hidden';
+      if (targetId) {
+        const el = document.getElementById(targetId);
+        if (el) {
+          requestAnimationFrame(() => {
+            overlay.scrollTop = 0;
+            el.scrollIntoView({block:'start'});
+          });
+        } else {
+          overlay.scrollTop = 0;
+        }
+      } else {
+        overlay.scrollTop = 0;
+      }
+    }
+    function closeInfo(){
+      overlay.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+    siteOverlays.closers.push(closeInfo);
+
+    document.querySelectorAll('a[href="#whitepaper"], a[href="#roadmap"]').forEach(a => {
+      a.addEventListener('click', (e) => {
+        e.preventDefault();
+        openInfo(a.getAttribute('href').slice(1));
+      });
+    });
+
+    overlay.querySelectorAll('[data-legal-tab]').forEach(a => {
+      a.addEventListener('click', (e) => {
+        e.preventDefault();
+        const el = document.getElementById(a.dataset.legalTab);
+        if (el) el.scrollIntoView({block:'start', behavior:'smooth'});
+      });
+    });
+
+    backBtn.addEventListener('click', closeInfo);
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && overlay.classList.contains('open')) closeInfo();
+    });
+  })();
+
+  // ---- Buy $GOAT overlay (wallet flow) ----
+  (function(){
+    // TODO: replace '#' with the real swap/purchase link once you have it
+    const BUY_LINK = '#';
+
+    const overlay = document.getElementById('buyOverlay');
+    const step1 = document.getElementById('buyStep1');
+    const step2 = document.getElementById('buyStep2');
+
+    document.getElementById('buyNowLink1').href = BUY_LINK;
+    document.getElementById('buyNowLink2').href = BUY_LINK;
+
+    function showStep1(){ step1.hidden = false; step2.hidden = true; }
+    function showStep2(){ step1.hidden = true; step2.hidden = false; }
+
+    function openBuy(){
+      closeAllOverlays();
+      showStep1();
+      window.scrollTo({top:0, behavior:'instant'});
+      const ribbon = document.querySelector('.ribbon');
+      const offset = ribbon ? ribbon.getBoundingClientRect().bottom : 0;
+      overlay.style.top = offset + 'px';
+      overlay.classList.add('open');
+      document.body.style.overflow = 'hidden';
+      overlay.scrollTop = 0;
+    }
+    function closeBuy(){
+      overlay.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+    siteOverlays.closers.push(closeBuy);
+
+    document.getElementById('needWalletBtn').addEventListener('click', showStep2);
+    document.getElementById('buyBackToStep1').addEventListener('click', showStep1);
+    document.getElementById('buyBackTop').addEventListener('click', closeBuy);
+    document.getElementById('buyCloseLink').addEventListener('click', closeBuy);
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && overlay.classList.contains('open')) closeBuy();
+    });
+
+    // Wire up every "Buy $GOAT" trigger on the page to open this overlay
+    document.querySelectorAll('a[href="#matchday"].btn-primary, #buyBtn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        openBuy();
+      });
+    });
+  })();
+
+  // ---- Scroll reveal ----
+  const revealEls = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => { if(entry.isIntersecting) entry.target.classList.add('in'); });
+  }, {threshold:0.15});
+  revealEls.forEach(el => io.observe(el));
+</script>
+
+</body>
+</html>
